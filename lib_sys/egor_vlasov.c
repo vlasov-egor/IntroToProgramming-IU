@@ -1,3 +1,15 @@
+//  TODO show books
+//  TODO add book
+//  TODO update book
+//  TODO remove books
+
+//  TODO show customer
+//  TODO add customer
+//  TODO update customer
+//  TODO remove customer
+
+
+
 //  libs declaration
 
 #include <stdio.h>
@@ -21,6 +33,51 @@ struct customer
     int age;
     float customer_rate;
 };
+
+//  linked-lists
+struct books_linked_list
+{
+    struct book;
+    struct books_linked_list *last;
+};
+
+
+//  funcs for books
+
+void show_books () {
+    printf("None");
+}
+
+void add_book () {
+    printf("None");
+}
+
+void update_book () {
+    printf("None");
+}
+
+void remove_book () {
+    printf("None");
+}
+
+
+//  funcs for customers
+
+void show_customers () {
+    printf("None");
+}
+
+void add_customer () {
+    printf("None");
+}
+
+void update_customer () {
+    printf("None");
+}
+
+void remove_customer () {
+    printf("None");
+}
 
 //  main
 int main()
@@ -63,7 +120,6 @@ int main()
             return 0;
         default:
             printf("You wrote wrong command\n");
-        
         }
     }
 }
