@@ -12,26 +12,27 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //  global variables declaration
-static int *address_of_books_list = NULL;
-static int *address_of_last_book = NULL;
+static struct books_linked_list *address_of_books_list = NULL;
+static struct books_linked_list *address_of_last_book = NULL;
 
 //  structs declaration
 
 struct book
 {
     char title[60];
-    char *author[50];
+    char author[50];
     int year;
-    float book_rate;
+    float rate;
 };
 
 struct customer
 {
     char name[50];
     int age;
-    float customer_rate;
+    float rate;
 };
 
 //  linked-lists
@@ -45,23 +46,29 @@ struct books_linked_list
 
 void show_books()
 {
-    stru
-    while (auto book = )
-    printf("None");
+    struct books_linked_list *current = address_of_books_list;
+
+    while (current != NULL)
+    {
+        printf("\e[34mTitle: \e[0m%s", current->book.title);
+        printf("\e[32mAutor: \e[0m%s", current->book.author);
+        printf("\e[32mYear: \e[0m%d\n", current->book.year);
+        printf("\e[32mRate: \e[0m%f\n\n", current->book.rate);
+        current = current->next;
+    }
 }
 
-struct books_linked_list* add_book(struct books_linked_list *after, struct book item)
+struct books_linked_list *add_book(struct books_linked_list *after, struct book item)
 {
-    struct books_linked_list new = {
-        .book = item,
-    };
+    struct books_linked_list *new = (struct books_linked_list *)malloc(sizeof(struct books_linked_list));
+    new->book = item;
 
     if (after != NULL)
     {
-        after->next = &new;
+        after->next = new;
     }
 
-    return &new;
+    return new;
 }
 
 void update_book()
@@ -94,7 +101,6 @@ void update_customer()
 void remove_customer()
 {
     printf("None");
-    printf("EGOR SOSET HUY");
 }
 
 //  main
@@ -104,24 +110,37 @@ int main()
 
     while ("True")
     {
+        printf("\e[32mType command: \e[36m");
         scanf("%d", &input);
+        getchar(); // Read fucking newline symbol
 
         switch (input)
         {
         case 1:
-            printf("You choosed function \"Show Books\"\n");
+            printf("\e[0mYou choosed function \"Show Books\"\n\n");
             show_books();
+            printf("\n");
             break;
         case 2:
-            printf("You choosed function \"Add Book\"\n");
-            struct book new = {.title = "1wqasada", .author = "dsadsad", .year = 22, .book_rate = 1.0};
+            printf("\e[0mYou choosed function \"Add Book\"\n");
+            struct book new_book;
 
-            address_of_last_book = add_book(&address_of_last_book, new);
+            printf("\e[33mWrite information about book: title, author, year, book rate\n\n\e[36m");
 
-            if (address_of_books_list == NULL) {
+            fgets(new_book.title, 60, stdin);
+            fgets(new_book.author, 50, stdin);
+            scanf("%d", &new_book.year);
+            scanf("%f", &new_book.rate);
+
+            address_of_last_book = add_book(address_of_last_book, new_book);
+
+            if (address_of_books_list == NULL)
+            {
                 address_of_books_list = address_of_last_book;
             }
-            
+
+            printf("\n\e[33mBook Added!\n\n");
+
             break;
         case 3:
             printf("You choosed function \"Update Book\"\n");
