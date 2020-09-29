@@ -1,5 +1,4 @@
 //  libs declaration
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -48,7 +47,7 @@ void show_books()
 
     if (current == NULL)
     {
-        printf("\e[31mNothing here\n\e[0m");
+        printf("\e[31mNothing here\n\n\e[0m");
     }
     else
     {
@@ -141,7 +140,7 @@ void show_customers()
 
     if (current == NULL)
     {
-        printf("\e[31mNothing here\n\e[0m");
+        printf("\e[31mNothing here\n\n\e[0m");
     }
     else
     {
@@ -234,8 +233,7 @@ int main()
     {
         printf("\e[32mType command: \e[36m");
         scanf("%d", &input);
-        while (getchar() != '\n')
-            ;
+        while (getchar() != '\n');
 
         switch (input)
         {
