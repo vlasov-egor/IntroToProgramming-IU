@@ -437,15 +437,15 @@ int main()
             printf("\n\e[31mYou wrote wrong command, write integer from 1 to 9\n");
             //  list of functionalities
             printf("\e[33mFunctionalities:\n\
-                1 - Show Books\n\
-                2 - Add Book\n\
-                3 - Update Book\n\
-                4 - Remove Book\n\
-                5 - Show Customers\n\
-                6 - Add Customer\n\
-                7 - Update Customer\n\
-                8 - Remove Customer\n\
-                9 - Exit\n\n");
+            1 - Show Books\n\
+            2 - Add Book\n\
+            3 - Update Book\n\
+            4 - Remove Book\n\
+            5 - Show Customers\n\
+            6 - Add Customer\n\
+            7 - Update Customer\n\
+            8 - Remove Customer\n\
+            9 - Exit\n\n");
         }
     }
 }
