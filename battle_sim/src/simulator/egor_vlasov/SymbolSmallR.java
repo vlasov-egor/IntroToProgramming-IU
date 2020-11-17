@@ -1,3 +1,5 @@
+package simulator.egor_vlasov;
+
 import simulator.do_not_change.Symbol;
 import simulator.do_not_change.Passive;
 import simulator.do_not_change.SmallCase;
@@ -25,6 +27,6 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void upgrade() {
-        
+        MyWorldController.world.insert(this.getPosition(), new SymbolCapitalR(this));
     }
 }

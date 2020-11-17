@@ -1,11 +1,10 @@
-import simulator.do_not_change.WorldController;
+package simulator.egor_vlasov;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import simulator.egor_vlasov.MyWorldController;
 
 public class Simulator {
-    public static void main(String[] args) {
+    public static void main (String[] args) {
+        MyWorldController controller = MyWorldController.getInstance();
         
     }
 }
