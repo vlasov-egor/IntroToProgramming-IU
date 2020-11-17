@@ -27,6 +27,7 @@ public class MyWorldController extends WorldController {
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol: symbols) {
             symbol.move();
+            MyWorldController.world.get(symbol.getPosition()).add(symbol);
         } 
     }
 
@@ -47,6 +48,7 @@ public class MyWorldController extends WorldController {
         //  прыгает как ебанный кенгуру хуй знает куда
         for (CapitalCase symbol: symbols) {
             symbol.jump();
+            MyWorldController.world.get(symbol.getPosition()).add(symbol);
         } 
     }
 
@@ -54,6 +56,7 @@ public class MyWorldController extends WorldController {
         //  съебывает вообще от всего
         for (Passive symbol: symbols) {
             symbol.escape();
+            MyWorldController.world.get(symbol.getPosition()).add(symbol);
         } 
     }
 
@@ -61,6 +64,7 @@ public class MyWorldController extends WorldController {
         //  идет к своим ровным пацикам
         for (Passive symbol: symbols) {
             symbol.moveBreed();
+            MyWorldController.world.get(symbol.getPosition()).add(symbol);
         } 
     }
 
@@ -68,6 +72,7 @@ public class MyWorldController extends WorldController {
         //  ебашит умно против детей
         for (Aggressive symbol: symbols) {
             symbol.attackSmart();
+            MyWorldController.world.get(symbol.getPosition()).add(symbol);
         } 
     }
 

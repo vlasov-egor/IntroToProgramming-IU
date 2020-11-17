@@ -3,6 +3,7 @@ package simulator.egor_vlasov;
 import simulator.do_not_change.Symbol;
 import simulator.do_not_change.Aggressive;
 import simulator.do_not_change.CapitalCase;
+import simulator.do_not_change.Position;
 
 public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;

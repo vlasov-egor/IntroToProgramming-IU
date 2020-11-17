@@ -4,7 +4,7 @@ import simulator.egor_vlasov.MyWorldController;
 
 public class Simulator {
     public static void main (String[] args) {
-        MyWorldController controller = MyWorldController.getInstance();
+        MyWorldController controller = new MyWorldController();
         
     }
 }

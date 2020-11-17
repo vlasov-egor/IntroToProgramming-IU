@@ -3,6 +3,7 @@ package simulator.egor_vlasov;
 import simulator.do_not_change.Symbol;
 import simulator.do_not_change.Aggressive;
 import simulator.do_not_change.CapitalCase;
+import simulator.do_not_change.Position;
 import simulator.egor_vlasov.SymbolSmallR;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
@@ -25,21 +26,22 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
 
     @Override
     public void move() {
-
+        //  съебывает куда-то в квадрате sightdist*2+1 * sightdist*2+1
     }
 
     @Override
     public void die() {
-
+        //  умирает нахуй
+        //  рофлан поминки
     }
 
     @Override
     public void attackSmart() {
-
+        //  пиздит слабых в пределах sightdist
     }
 
     @Override
     public void jump() {
-
+        //  съебывается как Порошенко из Украины
     }
 }
