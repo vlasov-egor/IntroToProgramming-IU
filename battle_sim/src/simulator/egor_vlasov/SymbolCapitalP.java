@@ -41,7 +41,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
             }
         }
 
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -104,7 +104,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override

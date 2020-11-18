@@ -42,7 +42,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
             }
         }
 
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override

@@ -41,8 +41,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
             }
         }
 
-        this.setPosition(possiblePositions[0
-                + (int) (Util.getRandomNumber(0, possiblePositions.size()))]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -75,7 +74,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override

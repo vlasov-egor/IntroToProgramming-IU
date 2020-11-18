@@ -34,7 +34,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
             }
         }
 
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override

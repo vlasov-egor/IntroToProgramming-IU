@@ -34,7 +34,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
             }
         }
 
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
     }
 
     @Override
