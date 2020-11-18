@@ -10,7 +10,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     public final int UPGRADE_ITERATIONS = 50;
 
     public SymbolSmallP(Position position, int sightDistance) {
-        this.idSymbol = MyWorldController.lastId++;
+        this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
         this.numberIterationsAlive = 0;
@@ -57,7 +57,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("r") == -1 && symbolsInCurrentCoord.indexOf("R") == -1) {
+                if (!Util.hasSymbol<SymbolSmallR>(symbolsInCurrentCoord) && !Util.hasSymbol<SymbolCapitalR>(symbolsInCurrentCoord)) {
                     continue;
                 } else {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);

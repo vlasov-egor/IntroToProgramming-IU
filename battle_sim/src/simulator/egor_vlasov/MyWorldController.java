@@ -14,12 +14,9 @@ import java.util.Random;
 import java.util.LinkedList;
 
 public class MyWorldController extends WorldController {
-    public static int lastId;
-
     public MyWorldController() {
         super();
         MyWorldController.world = new HashMap();
-        MyWorldController.lastId = 0;
 
         for (int x = 0; x <= 10; x++) {
             for (int y = 0; y <= 10; y++) {

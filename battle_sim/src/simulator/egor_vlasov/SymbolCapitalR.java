@@ -65,14 +65,15 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("s") == -1 && symbolsInCurrentCoord.indexOf("S") == -1) {
+                if (!Util.hasSymbol < SymbolCapitalS > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallS > (symbolsInCurrentCoord)) {
                     continue;
                 } else {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 }
             }
         }
-        //  TODO проверка на пустоту
+        // TODO проверка на пустоту
         this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
     }
 

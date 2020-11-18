@@ -64,8 +64,10 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("S") == -1 && symbolsInCurrentCoord.indexOf("s") == -1
-                        && symbolsInCurrentCoord.indexOf("R") == -1 && symbolsInCurrentCoord.indexOf("r") == -1) {
+                if (!Util.hasSymbol < SymbolCapitalS > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallS > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolCapitalR > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallR > (symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -92,7 +94,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("p") != -1 || symbolsInCurrentCoord.indexOf("P") != -1) {
+                if (Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord) || Util.hasSymbol<SymbolCapitalP>(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;

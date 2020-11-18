@@ -10,7 +10,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
     public final int UPGRADE_ITERATIONS = 50;
 
     public SymbolSmallS(Position position, int sightDistance) {
-        this.idSymbol = MyWorldController.lastId++;
+        this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
         this.numberIterationsAlive = 0;
@@ -57,8 +57,10 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("R") == -1 && symbolsInCurrentCoord.indexOf("r") == -1
-                        && symbolsInCurrentCoord.indexOf("P") == -1 && symbolsInCurrentCoord.indexOf("p") == -1) {
+                if (!Util.hasSymbol < SymbolCapitalR > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallR > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolCapitalP > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallP > (symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -85,7 +87,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("s") != -1 || symbolsInCurrentCoord.indexOf("S") != -1) {
+                if (Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord) || Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;

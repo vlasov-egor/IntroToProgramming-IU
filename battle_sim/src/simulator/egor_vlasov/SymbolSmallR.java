@@ -4,13 +4,14 @@ import simulator.do_not_change.Symbol;
 import simulator.do_not_change.Passive;
 import simulator.do_not_change.SmallCase;
 import simulator.do_not_change.Position;
+import simulator.egor_vlasov.Util;
 
 public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     public final int UPGRADE_ITERATIONS = 50;
 
     public SymbolSmallR(Position position, int sightDistance) {
-        this.idSymbol = MyWorldController.lastId++;
+        this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
         this.numberIterationsAlive = 0;
@@ -57,8 +58,10 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("S") == -1 && symbolsInCurrentCoord.indexOf("s") == -1
-                        && symbolsInCurrentCoord.indexOf("P") == -1 && symbolsInCurrentCoord.indexOf("p") == -1) {
+                if (!Util.hasSymbol < SymbolCapitalS > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallS > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolCapitalP > (symbolsInCurrentCoord)
+                        && !Util.hasSymbol < SymbolSmallP > (symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -85,7 +88,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (symbolsInCurrentCoord.indexOf("r") != -1 || symbolsInCurrentCoord.indexOf("R") != -1) {
+                if (Util.hasSymbol<SymbolCapitalR>(symbolsInCurrentCoord) || Util.hasSymbol<SymbolSmallR>(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -98,7 +101,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void upgrade() {
-        //  хуй знает работает или нет
+        // хуй знает работает или нет
         MyWorldController.world.get(this.getPosition()).add(new SymbolCapitalR(this));
     }
 }
