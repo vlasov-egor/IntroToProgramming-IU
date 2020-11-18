@@ -11,6 +11,13 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     public final int UPGRADE_ITERATIONS = Util.getRandomNumber(30, 50);;
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolSmallR(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
@@ -19,6 +26,13 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -49,11 +63,25 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void die() {
-        
+
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -86,6 +114,13 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -116,6 +151,13 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void upgrade() {
         // хуй знает работает или нет
         MyWorldController.world.get(this.getPosition()).add(new SymbolCapitalR(this));

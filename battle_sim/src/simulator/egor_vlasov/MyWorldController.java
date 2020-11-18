@@ -24,7 +24,7 @@ public class MyWorldController extends WorldController {
             }
         }
 
-        //  generator
+        //  TODO
         for (int i = 0; i < Util.getRandomNumber(50, 100); i++) {
             int randomX = Util.getRandomNumber(0, 9);
             int randomY = Util.getRandomNumber(0, 9);
@@ -60,7 +60,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  мувы хуювы
+    //  TODO
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
@@ -68,53 +68,54 @@ public class MyWorldController extends WorldController {
         }
     }
 
+    //  TODO
     public void symbolsDie(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.die();
         }
     }
 
+    //  TODO
     public void smallCaseUpgrade(List<SmallCase> symbols) {
-        // типо должен их возводить в новый ранг ебать
         for (SmallCase symbol : symbols) {
             symbol.upgrade();
         }
     }
 
+    //  TODO
     public void capitalCaseJump(List<CapitalCase> symbols) {
-        // прыгает как ебанный кенгуру хуй знает куда
         for (CapitalCase symbol : symbols) {
             symbol.jump();
             MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
+    //  TODO
     public void passiveEscape(List<Passive> symbols) {
-        // съебывает вообще от всего
         for (Passive symbol : symbols) {
             symbol.escape();
             MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
+    //  TODO
     public void passiveBreed(List<Passive> symbols) {
-        // идет к своим ровным пацикам
         for (Passive symbol : symbols) {
             symbol.moveBreed();
             MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
+    //  TODO
     public void aggressiveAttackSmart(List<Aggressive> symbols) {
-        // ебашит умно против детей
         for (Aggressive symbol : symbols) {
             symbol.attackSmart();
             MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
+    //  TODO
     public String plotWorld() {
-        // выводит всю эту хуйню в 10х10 стринг
         return "";
     }
 }

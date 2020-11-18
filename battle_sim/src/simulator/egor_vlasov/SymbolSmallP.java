@@ -11,6 +11,13 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
     public final int UPGRADE_ITERATIONS = Util.getRandomNumber(30, 50);;
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolSmallP(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
@@ -19,6 +26,13 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -49,11 +63,25 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void die() {
-        
+
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void attackSmart() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -84,6 +112,13 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void upgrade() {
         MyWorldController.world.get(this.getPosition()).add(new SymbolCapitalP(this));
     }

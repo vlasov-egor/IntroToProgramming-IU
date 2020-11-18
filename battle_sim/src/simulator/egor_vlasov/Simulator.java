@@ -5,10 +5,11 @@ import simulator.do_not_change.Position;
 import simulator.do_not_change.Symbol;
 import java.util.stream.*;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.functions.*;
+import java.util.function.*;
 
 public class Simulator extends Object {
     MyWorldController controller;
@@ -28,6 +29,13 @@ public class Simulator extends Object {
         }
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void draw() {
         int[] length = new int[MyWorldController.MAX_COLS];
 
@@ -71,6 +79,13 @@ public class Simulator extends Object {
         }
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void setStage(String stage) {
         System.out.println("");
         System.out.println("-".repeat(stage.length() + 10));
@@ -79,7 +94,13 @@ public class Simulator extends Object {
         System.out.println("");
     }
 
-    // Move fucking letters;
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     void move() {
         setStage("Symbols move");
         Stream<Symbol> stream = Stream.empty();
@@ -94,6 +115,13 @@ public class Simulator extends Object {
         draw();
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     void die() {
         setStage("Symbols die");
         Stream<Symbol> stream = Stream.empty();
@@ -101,13 +129,16 @@ public class Simulator extends Object {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
                 Stream<Symbol> cell = MyWorldController.world.get(new Position(y, x)).stream();
                 Map<Boolean, List<Symbol>> cellSplitted = cell.collect(Collectors.partitioningBy(s -> {
-                    if (s instanceof SymbolCapitalP && ((SymbolCapitalP) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                    if (s instanceof SymbolCapitalP
+                            && ((SymbolCapitalP) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
                         return true;
                     }
-                    if (s instanceof SymbolCapitalR && ((SymbolCapitalR) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                    if (s instanceof SymbolCapitalR
+                            && ((SymbolCapitalR) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
                         return true;
                     }
-                    if (s instanceof SymbolCapitalS && ((SymbolCapitalS) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                    if (s instanceof SymbolCapitalS
+                            && ((SymbolCapitalS) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
                         return true;
                     }
 
@@ -127,10 +158,28 @@ public class Simulator extends Object {
         draw();
     }
 
-    List<Symbol>[] split(Predicate<Symbol> predicate) {
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
+    List<Symbol>[] split(List<Symbol> list, Predicate<Symbol> predicate) {
+        List<Symbol>[] splitArr;
+        Map<Boolean, List<Symbol>> splitted = list.stream().collect(Collectors.partitioningBy(list));
 
+        splitArr = new ArrayList<Symbol>[] { splitted.get(true), splitted.get(false) };
+        return splitArr;
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     void fight() {
         setStage("Symbols fight");
         Stream<Symbol> stream = Stream.empty();
@@ -140,19 +189,51 @@ public class Simulator extends Object {
                 List<Symbol> cell = MyWorldController.world.get(new Position(y, x));
 
                 if (Util.<SymbolCapitalR>hasSymbol(cell) || Util.<SymbolSmallR>hasSymbol(cell)) {
+                    List<Symbol>[] splitted = split(cell,
+                            s -> (s instanceof SymbolCapitalS) || (s instanceof SymbolSmallS));
 
+                    toDie.addAll(splitted[0]);
+                    cell = splitted[1];
                 }
 
-                
-                stream = Stream.concat(stream, cellSplitted.get(true).stream());
+                if (Util.<SymbolCapitalP>hasSymbol(cell) || Util.<SymbolSmallP>hasSymbol(cell)) {
+                    List<Symbol>[] splitted = split(cell,
+                            s -> (s instanceof SymbolCapitalR) || (s instanceof SymbolSmallR));
+
+                    toDie.addAll(splitted[0]);
+                    cell = splitted[1];
+                }
+
+                if (Util.<SymbolCapitalS>hasSymbol(cell) || Util.<SymbolSmallS>hasSymbol(cell)) {
+                    List<Symbol>[] splitted = split(cell,
+                            s -> (s instanceof SymbolCapitalP) || (s instanceof SymbolSmallP));
+
+                    toDie.addAll(splitted[0]);
+                    cell = splitted[1];
+                }
+
+                stream = Stream.concat(stream, toDie.stream());
+
+                LinkedList ll = new LinkedList();
+                ll.addAll(cell);
+                MyWorldController.world.put(new Position(y, x), ll);
             }
         }
 
         List<Symbol> symbolsToDie = stream.collect(Collectors.toList());
         controller.symbolsDie(symbolsToDie);
+
         draw();
+
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     void becomeOlder() {
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
@@ -161,6 +242,13 @@ public class Simulator extends Object {
         }
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void tick() {
         move();
         // wait

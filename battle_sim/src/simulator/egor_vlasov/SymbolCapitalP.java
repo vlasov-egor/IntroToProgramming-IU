@@ -10,6 +10,13 @@ import java.util.ArrayList;
 public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolCapitalP(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
@@ -17,6 +24,13 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
         this.numberIterationsAlive = 0;
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolCapitalP(SymbolSmallP small) {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
@@ -25,6 +39,13 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -55,11 +76,25 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void die() {
-        
+
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -92,6 +127,13 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -122,6 +164,13 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void jump() {
         System.out.println("jump");
         System.out.println(this.getPosition());

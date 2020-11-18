@@ -10,6 +10,13 @@ import java.util.ArrayList;
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolCapitalR(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
@@ -17,6 +24,13 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
         this.numberIterationsAlive = 0;
     }
 
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public SymbolCapitalR(SymbolSmallR small) {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
@@ -25,6 +39,13 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -55,11 +76,25 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void die() {
-        
+
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void attackSmart() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
@@ -90,6 +125,13 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     }
 
     @Override
+    /**
+     * Return the Manhattan distance between this position and another object of
+     * Position
+     * 
+     * @param other
+     * @return
+     */
     public void jump() {
         System.out.println("jump");
         System.out.println(this.getPosition());
