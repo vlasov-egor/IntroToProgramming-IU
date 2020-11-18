@@ -38,6 +38,6 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void upgrade() {
-        MyWorldController.world.put(this.getPosition(), new SymbolCapitalR(this));
+        MyWorldController.world.get(this.getPosition()).add(new SymbolCapitalR(this));
     }
 }
