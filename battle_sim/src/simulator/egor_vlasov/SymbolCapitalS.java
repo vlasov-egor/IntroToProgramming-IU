@@ -1,6 +1,7 @@
 package simulator.egor_vlasov;
 
 import simulator.do_not_change.*;
+import simulator.egor_vlasov.*;
 import java.util.Random;
 import simulator.egor_vlasov.Util;
 
@@ -15,7 +16,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         this.numberIterationsAlive = UPGRADE_ITERATIONS + 1;
     }
 
-    public SymbolCapitalS(SymbolSmallR small) {
+    public SymbolCapitalS(SymbolSmallS small) {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
         this.sightDistance = small.getSightDistance() + 1;
@@ -34,7 +35,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentX + i, currentY + j);
+                possiblePositions[i] = new Position(currentY + i, currentX + j);
             }
         }
 
@@ -61,13 +62,13 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
 
                 // так заебись? или хуево?
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentX + i, currentY + j));
+                        .get(new Position(currentY + i, currentX + j));
 
                 if (!Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolCapitalP>(symbolsInCurrentCoord)) {
+                        && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions[i] = new Position(currentX + i, currentY + j);
+                    possiblePositions[i] = new Position(currentY + i, currentX + j);
                 }
             }
         }
@@ -82,7 +83,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         int randomX = 0 + (int) (Math.random() * 9);
         int randomY = 0 + (int) (Math.random() * 9);
 
-        Position newPosition = new Position(randomX, randomY);
+        Position newPosition = new Position(randomY, randomX);
         this.setPosition(newPosition);
     }
 }

@@ -1,6 +1,7 @@
 package simulator.egor_vlasov;
 
 import simulator.do_not_change.*;
+import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
@@ -33,7 +34,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentX + i, currentY + j);
+                possiblePositions[i] = new Position(currentY + i, currentX + j);
             }
         }
 
@@ -60,13 +61,13 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
 
                 // так заебись? или хуево?
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentX + i, currentY + j));
+                        .get(new Position(currentY + i, currentX + j));
 
                 if (!Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord)
                         && !Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions[i] = new Position(currentX + i, currentY + j);
+                    possiblePositions[i] = new Position(currentY + i, currentX + j);
                 }
             }
         }
@@ -81,7 +82,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
         int randomX = 0 + (int) (Math.random() * 9);
         int randomY = 0 + (int) (Math.random() * 9);
 
-        Position newPosition = new Position(randomX, randomY);
+        Position newPosition = new Position(randomY, randomX);
         this.setPosition(newPosition);
     }
 }

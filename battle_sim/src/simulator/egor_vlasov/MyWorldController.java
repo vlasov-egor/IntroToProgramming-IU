@@ -33,7 +33,7 @@ public class MyWorldController extends WorldController {
             char[] letters = { CAPITAL_R, CAPITAL_P, CAPITAL_S, SMALL_R, SMALL_P, SMALL_S };
             char randomLetter = letters[0 + (int) (Math.random() * 5)];
 
-            Position newPosition = new Position(randomX, randomY);
+            Position newPosition = new Position(randomY, randomX);
             Symbol newSymbol = null;
             switch (randomLetter) {
                 case CAPITAL_R:
