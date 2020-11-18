@@ -18,20 +18,20 @@ public class MyWorldController extends WorldController {
         super();
         MyWorldController.world = new HashMap();
 
-        for (int x = 0; x <= 10; x++) {
-            for (int y = 0; y <= 10; y++) {
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
                 MyWorldController.world.put(new Position(y, x), new LinkedList());
             }
         }
 
         //  generator
-        for (int i = 0; i < 0 + (int) (Math.random() * 10); i++) {
-            int randomX = 0 + (int) (Math.random() * 9);
-            int randomY = 0 + (int) (Math.random() * 9);
-            int randomSightDistance = 1 + (int) (Math.random() * 5);
+        for (int i = 0; i < Util.getRandomNumber(5, 10); i++) {
+            int randomX = Util.getRandomNumber(0, 9);
+            int randomY = Util.getRandomNumber(0, 9);
+            int randomSightDistance = Util.getRandomNumber(1, 5);
 
             char[] letters = { CAPITAL_R, CAPITAL_P, CAPITAL_S, SMALL_R, SMALL_P, SMALL_S };
-            char randomLetter = letters[0 + (int) (Math.random() * 5)];
+            char randomLetter = letters[Util.getRandomNumber(0, 5)];
 
             Position newPosition = new Position(randomY, randomX);
             Symbol newSymbol = null;
@@ -64,7 +64,6 @@ public class MyWorldController extends WorldController {
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
-            System.out.println(symbol.getPosition().column + " " + symbol.getPosition().row);
             MyWorldController.world.get(symbol.getPosition()).add(symbol);
         }
     }

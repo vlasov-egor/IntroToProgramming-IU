@@ -6,6 +6,7 @@ import simulator.do_not_change.Symbol;
 import java.util.stream.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Arrays;
 
 public class Simulator extends Object {
     MyWorldController controller;
@@ -26,19 +27,52 @@ public class Simulator extends Object {
     }
 
     public void draw() {
-        System.out.print("dsd");
+        int[] length = new int[MyWorldController.MAX_COLS];
+        Arrays.fill(length, 0);
+
+        for (int y = 0; y < MyWorldController.MAX_ROWS; y++) {
+            for (int x = 0; x < MyWorldController.MAX_COLS; x++) {
+                Position current = new Position(y, x);
+
+                if (controller.world.get(current).size() > length[x]) {
+                    length[x] = controller.world.get(current).size();
+                }
+            }
+        }
+
+        for (int y = 0; y < MyWorldController.MAX_ROWS; y++) {
+            for (int x = 0; x < MyWorldController.MAX_COLS; x++) {
+                Position current = new Position(y, x);
+                controller.world.get(current).stream().forEach(o -> {
+                    if (o instanceof SymbolCapitalP) System.out.print(MyWorldController.CAPITAL_P);
+                    if (o instanceof SymbolCapitalR) System.out.print(MyWorldController.CAPITAL_R);
+                    if (o instanceof SymbolCapitalS) System.out.print(MyWorldController.CAPITAL_S);
+                    if (o instanceof SymbolSmallP) System.out.print(MyWorldController.SMALL_P);
+                    if (o instanceof SymbolSmallR) System.out.print(MyWorldController.SMALL_R);
+                    if (o instanceof SymbolSmallS) System.out.print(MyWorldController.SMALL_S);
+                });
+
+                System.out.print(" ".repeat(length[x] - controller.world.get(current).size()));
+                System.out.print(" | ");
+            }
+            System.out.println();
+        }
     }
-
+    
     public void setStage(String stage) {
-
+        System.out.println("");
+        System.out.println("-".repeat(stage.length() + 10));
+        System.out.println("|    " + stage + "    |");
+        System.out.println("-".repeat(stage.length() + 10));
+        System.out.println("");
     }
 
     public void tick() {
         // Move fucking letters;
         setStage("Moving symbols");
         Stream<Symbol> stream = Stream.empty();
-        for (int x = 0; x <= 10; x++) {
-            for (int y = 0; y <= 10; y++) {
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
                 stream = Stream.concat(stream, MyWorldController.world.get(new Position(y, x)).stream());
                 MyWorldController.world.put(new Position(y, x), new LinkedList());
             }

@@ -32,19 +32,28 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         int currentY = this.getPosition().row;
         List<Position> possiblePositions = new ArrayList();
 
-        for (int i = 0; i < sightDistance; ++i) {
-            for (int j = 0; j < sightDistance; ++j) {
+        for (int i = 0; i <= sightDistance; i++) {
+            for (int j = 0; j <= sightDistance; j++) {
                 if (i == 0 && j == 0) {
                     continue;
                 }
 
-                if (currentX + i < 10 && currentY + j < 10) {
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX + j < MyWorldController.MAX_COLS) {
                     possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY + i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY - i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX + j < MyWorldController.MAX_COLS) {
+                    possiblePositions.add(new Position(currentY - i, currentX + j));
                 }
             }
         }
 
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
     }
 
     @Override
@@ -58,8 +67,8 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         int currentY = this.getPosition().row;
         List<Position> possiblePositions = new ArrayList();
 
-        for (int i = 0; i < sightDistance; ++i) {
-            for (int j = 0; j < sightDistance; ++j) {
+        for (int i = 0; i <= sightDistance; i++) {
+            for (int j = 0; j <= sightDistance; j++) {
                 if (i == 0 && j == 0) {
                     continue;
                 }
@@ -72,14 +81,14 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                         && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    if (currentX + i < 10 && currentY + j < 10) {
+                    if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
                         possiblePositions.add(new Position(currentY + i, currentX + j));
                     }
                 }
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size())));
+        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
     }
 
     @Override
