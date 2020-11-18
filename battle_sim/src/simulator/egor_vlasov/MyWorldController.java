@@ -20,7 +20,7 @@ public class MyWorldController extends WorldController {
 
         for (int x = 0; x <= 10; x++) {
             for (int y = 0; y <= 10; y++) {
-                MyWorldController.world.put(new Position(x, y), new LinkedList());
+                MyWorldController.world.put(new Position(y, x), new LinkedList());
             }
         }
 
@@ -34,7 +34,7 @@ public class MyWorldController extends WorldController {
             char randomLetter = letters[0 + (int) (Math.random() * 5)];
 
             Position newPosition = new Position(randomX, randomY);
-            Symbol newSymbol;
+            Symbol newSymbol = null;
             switch (randomLetter) {
                 case CAPITAL_R:
                     newSymbol = new SymbolCapitalR(newPosition, randomSightDistance);
@@ -85,7 +85,7 @@ public class MyWorldController extends WorldController {
         // прыгает как ебанный кенгуру хуй знает куда
         for (CapitalCase symbol : symbols) {
             symbol.jump();
-            MyWorldController.world.get(symbol.getPosition()).add(symbol);
+            MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
@@ -93,7 +93,7 @@ public class MyWorldController extends WorldController {
         // съебывает вообще от всего
         for (Passive symbol : symbols) {
             symbol.escape();
-            MyWorldController.world.get(symbol.getPosition()).add(symbol);
+            MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
@@ -101,7 +101,7 @@ public class MyWorldController extends WorldController {
         // идет к своим ровным пацикам
         for (Passive symbol : symbols) {
             symbol.moveBreed();
-            MyWorldController.world.get(symbol.getPosition()).add(symbol);
+            MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 
@@ -109,7 +109,7 @@ public class MyWorldController extends WorldController {
         // ебашит умно против детей
         for (Aggressive symbol : symbols) {
             symbol.attackSmart();
-            MyWorldController.world.get(symbol.getPosition()).add(symbol);
+            MyWorldController.world.get(((Symbol)symbol).getPosition()).add((Symbol)symbol);
         }
     }
 

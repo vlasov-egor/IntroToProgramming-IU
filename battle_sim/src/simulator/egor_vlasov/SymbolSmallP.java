@@ -1,9 +1,7 @@
 package simulator.egor_vlasov;
 
-import simulator.do_not_change.Symbol;
-import simulator.do_not_change.Aggressive;
-import simulator.do_not_change.SmallCase;
-import simulator.do_not_change.Position;
+import simulator.do_not_change.*;
+import simulator.egor_vlasov.Util;
 
 public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
@@ -18,8 +16,8 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
     @Override
     public void move() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
@@ -43,8 +41,8 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
     @Override
     public void attackSmart() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {

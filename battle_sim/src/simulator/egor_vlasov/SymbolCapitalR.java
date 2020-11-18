@@ -1,17 +1,14 @@
 package simulator.egor_vlasov;
 
-import simulator.do_not_change.Symbol;
-import simulator.do_not_change.Aggressive;
-import simulator.do_not_change.CapitalCase;
-import simulator.do_not_change.Position;
-import simulator.egor_vlasov.SymbolSmallR;
+import simulator.do_not_change.*;
+import simulator.egor_vlasov.Util;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;
     public final int DIE_ITERATIONS = 100;
 
     public SymbolCapitalR(Position position, int sightDistance) {
-        this.idSymbol = MyWorldController.lastId++;
+        this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
         this.numberIterationsAlive = UPGRADE_ITERATIONS + 1;
@@ -26,8 +23,8 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
 
     @Override
     public void move() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
@@ -51,8 +48,8 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
 
     @Override
     public void attackSmart() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
@@ -65,8 +62,8 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (!Util.hasSymbol < SymbolCapitalS > (symbolsInCurrentCoord)
-                        && !Util.hasSymbol < SymbolSmallS > (symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord)
+                        && !Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)) {
                     continue;
                 } else {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);

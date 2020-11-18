@@ -1,9 +1,6 @@
 package simulator.egor_vlasov;
 
-import simulator.do_not_change.Symbol;
-import simulator.do_not_change.Passive;
-import simulator.do_not_change.SmallCase;
-import simulator.do_not_change.Position;
+import simulator.do_not_change.*;
 import simulator.egor_vlasov.Util;
 
 public class SymbolSmallR extends Symbol implements Passive, SmallCase {
@@ -19,8 +16,8 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void move() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
@@ -44,8 +41,8 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void escape() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
@@ -58,10 +55,10 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentX + i, currentY + j));
 
-                if (!Util.hasSymbol < SymbolCapitalS > (symbolsInCurrentCoord)
-                        && !Util.hasSymbol < SymbolSmallS > (symbolsInCurrentCoord)
-                        && !Util.hasSymbol < SymbolCapitalP > (symbolsInCurrentCoord)
-                        && !Util.hasSymbol < SymbolSmallP > (symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord)
+                        && !Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)
+                        && !Util.hasSymbol<SymbolCapitalP>(symbolsInCurrentCoord)
+                        && !Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -74,8 +71,8 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void moveBreed() {
-        int currentX = this.getPosition().x;
-        int currentY = this.getPosition().y;
+        int currentX = this.getPosition().column;
+        int currentY = this.getPosition().row;
         Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
         for (int i = 0; i < sightDistance; ++i) {
