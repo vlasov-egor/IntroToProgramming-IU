@@ -15,8 +15,6 @@ import java.util.LinkedList;
 
 public class MyWorldController extends WorldController {
     public static int lastId;
-    // TODO ебануть генератор, который раз в n итераций ебашит нового уебка
-    // Нахер не надо. Генерить надо адын раз
 
     public MyWorldController() {
         super();
@@ -27,17 +25,18 @@ public class MyWorldController extends WorldController {
             for (int y = 0; y <= 10; y++) {
                 MyWorldController.world.put(new Position(x, y), new LinkedList());
             }
-        }    
+        }
 
+        //  generator
         for (int i = 0; i < 0 + (int) (Math.random() * 10); i++) {
             int randomX = 0 + (int) (Math.random() * 9);
             int randomY = 0 + (int) (Math.random() * 9);
             int randomSightDistance = 0 + (int) (Math.random() * 5);
-    
-            char[] letters = {CAPITAL_R, CAPITAL_P, CAPITAL_S, SMALL_R, SMALL_P, SMALL_S};
-            char randomLetter = letters[0 + (int) (Math.random() * 5)]; 
 
-            Position newPosition = new Position(random_x, random_y);
+            char[] letters = { CAPITAL_R, CAPITAL_P, CAPITAL_S, SMALL_R, SMALL_P, SMALL_S };
+            char randomLetter = letters[0 + (int) (Math.random() * 5)];
+
+            Position newPosition = new Position(randomX, randomY);
             Symbol newSymbol;
             switch (randomLetter) {
                 case CAPITAL_R:
@@ -59,11 +58,12 @@ public class MyWorldController extends WorldController {
                     newSymbol = new SymbolSmallS(newPosition, randomSightDistance);
                     break;
             }
-            
+
             MyWorldController.world.get(newPosition).add(newSymbol);
         }
     }
 
+    //  мувы хуювы
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
