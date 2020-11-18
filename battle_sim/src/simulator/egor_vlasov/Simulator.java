@@ -7,6 +7,7 @@ import java.util.stream.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 
 public class Simulator extends Object {
     MyWorldController controller;
@@ -28,7 +29,6 @@ public class Simulator extends Object {
 
     public void draw() {
         int[] length = new int[MyWorldController.MAX_COLS];
-        Arrays.fill(length, 0);
 
         for (int y = 0; y < MyWorldController.MAX_ROWS; y++) {
             for (int x = 0; x < MyWorldController.MAX_COLS; x++) {
@@ -40,25 +40,36 @@ public class Simulator extends Object {
             }
         }
 
+        int sumlen = Arrays.stream(length).sum() + (MyWorldController.MAX_COLS) * 3 + 1;
+
+        System.out.println("-".repeat(sumlen));
         for (int y = 0; y < MyWorldController.MAX_ROWS; y++) {
+            System.out.print("| ");
             for (int x = 0; x < MyWorldController.MAX_COLS; x++) {
                 Position current = new Position(y, x);
                 controller.world.get(current).stream().forEach(o -> {
-                    if (o instanceof SymbolCapitalP) System.out.print(MyWorldController.CAPITAL_P);
-                    if (o instanceof SymbolCapitalR) System.out.print(MyWorldController.CAPITAL_R);
-                    if (o instanceof SymbolCapitalS) System.out.print(MyWorldController.CAPITAL_S);
-                    if (o instanceof SymbolSmallP) System.out.print(MyWorldController.SMALL_P);
-                    if (o instanceof SymbolSmallR) System.out.print(MyWorldController.SMALL_R);
-                    if (o instanceof SymbolSmallS) System.out.print(MyWorldController.SMALL_S);
+                    if (o instanceof SymbolCapitalP)
+                        System.out.print(MyWorldController.CAPITAL_P);
+                    if (o instanceof SymbolCapitalR)
+                        System.out.print(MyWorldController.CAPITAL_R);
+                    if (o instanceof SymbolCapitalS)
+                        System.out.print(MyWorldController.CAPITAL_S);
+                    if (o instanceof SymbolSmallP)
+                        System.out.print(MyWorldController.SMALL_P);
+                    if (o instanceof SymbolSmallR)
+                        System.out.print(MyWorldController.SMALL_R);
+                    if (o instanceof SymbolSmallS)
+                        System.out.print(MyWorldController.SMALL_S);
                 });
 
                 System.out.print(" ".repeat(length[x] - controller.world.get(current).size()));
                 System.out.print(" | ");
             }
             System.out.println();
+            System.out.println("-".repeat(sumlen));
         }
     }
-    
+
     public void setStage(String stage) {
         System.out.println("");
         System.out.println("-".repeat(stage.length() + 10));
@@ -67,8 +78,8 @@ public class Simulator extends Object {
         System.out.println("");
     }
 
-    public void tick() {
-        // Move fucking letters;
+    // Move fucking letters;
+    void move() {
         setStage("Moving symbols");
         Stream<Symbol> stream = Stream.empty();
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
@@ -80,6 +91,54 @@ public class Simulator extends Object {
         List<Symbol> symbolsToMove = stream.collect(Collectors.toList());
         controller.symbolsMove(symbolsToMove);
         draw();
-        // waitFiveFuckingSeconds();
+    }
+
+    void kill() {
+        setStage("Killing symbols");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                Stream<Symbol> cell = MyWorldController.world.get(new Position(y, x)).stream();
+                Map<Boolean, List<Symbol>> cellSplitted = cell.collect(Collectors.partitioningBy(s -> {
+                    if (s instanceof SymbolCapitalP && ((SymbolCapitalP) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+                    if (s instanceof SymbolCapitalR && ((SymbolCapitalR) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+                    if (s instanceof SymbolCapitalS && ((SymbolCapitalS) s).DIE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+
+                    return false;
+                }));
+
+                LinkedList ll = new LinkedList();
+                ll.addAll(cellSplitted.get(false));
+
+                MyWorldController.world.put(new Position(y, x), ll);
+                stream = Stream.concat(stream, cellSplitted.get(true).stream());
+            }
+        }
+
+        List<Symbol> symbolsToDie = stream.collect(Collectors.toList());
+        controller.symbolsDie(symbolsToDie);
+        draw();
+    }
+
+    void becomeOlder() {
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                MyWorldController.world.get(new Position(y, x)).stream().forEach(s -> s.becomeOlder());
+            }
+        }
+    }
+
+    public void tick() {
+        move();
+        // wait
+        kill();
+        // wait
+        becomeOlder();
     }
 }

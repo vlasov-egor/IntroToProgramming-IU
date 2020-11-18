@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
-    public final int UPGRADE_ITERATIONS = 50;
-    public final int DIE_ITERATIONS = 100;
+    public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);;
 
     public SymbolCapitalS(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;

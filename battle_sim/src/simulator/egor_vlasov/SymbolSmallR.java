@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
-    public final int UPGRADE_ITERATIONS = 50;
+    public final int UPGRADE_ITERATIONS = Util.getRandomNumber(30, 50);;
 
     public SymbolSmallR(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
@@ -50,7 +50,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
     @Override
     public void die() {
-        System.out.println("I died");
+        
     }
 
     @Override

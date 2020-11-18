@@ -8,8 +8,7 @@ import simulator.egor_vlasov.Util;
 import java.util.ArrayList;
 
 public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
-    public final int UPGRADE_ITERATIONS = 50;
-    public final int DIE_ITERATIONS = 100;
+    public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);
 
     public SymbolCapitalP(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
@@ -37,7 +36,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                     continue;
                 }
 
-                            if (currentY + i < MyWorldController.MAX_ROWS && currentX + j < MyWorldController.MAX_COLS) {
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX + j < MyWorldController.MAX_COLS) {
                     possiblePositions.add(new Position(currentY + i, currentX + j));
                 }
                 if (currentY + i < MyWorldController.MAX_ROWS && currentX - j >= 0) {
@@ -57,7 +56,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
 
     @Override
     public void die() {
-        System.out.println("I died");
+        
     }
 
     @Override

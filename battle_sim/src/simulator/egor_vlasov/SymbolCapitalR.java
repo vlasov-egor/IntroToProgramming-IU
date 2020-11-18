@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
-    public final int UPGRADE_ITERATIONS = 50;
-    public final int DIE_ITERATIONS = 100;
+    public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);;
 
     public SymbolCapitalR(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
@@ -57,7 +56,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
 
     @Override
     public void die() {
-        System.out.println("I died");
+        
     }
 
     @Override
