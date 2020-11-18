@@ -72,7 +72,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                 }
             }
         }
-
+        //  TODO проверка на пустоту
         this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
     }
 
