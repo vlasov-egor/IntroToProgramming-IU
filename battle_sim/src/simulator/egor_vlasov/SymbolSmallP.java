@@ -1,7 +1,9 @@
 package simulator.egor_vlasov;
 
 import simulator.do_not_change.*;
+import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
+import java.util.LinkedList;
 
 public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
@@ -18,7 +20,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -26,12 +28,11 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentX + i, currentY + j);
+                possiblePositions[i] = new Position(currentY + i, currentX + j);
             }
         }
 
-        this.setPosition(possiblePositions[0
-                + (int) (Math.random() * ((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
     public void attackSmart() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -53,17 +54,18 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
                 // так заебись? или хуево?
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentX + i, currentY + j));
+                        .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.hasSymbol<SymbolSmallR>(symbolsInCurrentCoord) && !Util.hasSymbol<SymbolCapitalR>(symbolsInCurrentCoord)) {
+                if (!Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions[i] = new Position(currentX + i, currentY + j);
+                    possiblePositions[i] = new Position(currentY + i, currentX + j);
                 }
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override

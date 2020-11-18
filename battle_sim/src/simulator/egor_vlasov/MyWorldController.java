@@ -28,7 +28,7 @@ public class MyWorldController extends WorldController {
         for (int i = 0; i < 0 + (int) (Math.random() * 10); i++) {
             int randomX = 0 + (int) (Math.random() * 9);
             int randomY = 0 + (int) (Math.random() * 9);
-            int randomSightDistance = 0 + (int) (Math.random() * 5);
+            int randomSightDistance = 1 + (int) (Math.random() * 5);
 
             char[] letters = { CAPITAL_R, CAPITAL_P, CAPITAL_S, SMALL_R, SMALL_P, SMALL_S };
             char randomLetter = letters[0 + (int) (Math.random() * 5)];
@@ -64,6 +64,7 @@ public class MyWorldController extends WorldController {
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
+            System.out.print(symbol.getPosition());
             MyWorldController.world.get(symbol.getPosition()).add(symbol);
         }
     }

@@ -5,6 +5,12 @@ import java.util.LinkedList;
 
 public class Util {
     public static <T extends Symbol> boolean hasSymbol(LinkedList<Symbol> list) {
-        return list.stream().filter(o -> o instanceof T).findFirst().isPresent();
+        Class type = ((T) new Object()).getClass();
+
+        return list.stream().filter(o -> type.isInstance(o)).findFirst().isPresent();
+    }
+
+    public static int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }

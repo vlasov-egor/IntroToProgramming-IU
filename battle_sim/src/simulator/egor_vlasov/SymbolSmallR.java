@@ -1,7 +1,9 @@
 package simulator.egor_vlasov;
 
 import simulator.do_not_change.*;
+import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
+import java.util.LinkedList;
 
 public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
@@ -18,7 +20,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -26,12 +28,11 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentX + i, currentY + j);
+                possiblePositions[i] = new Position(currentY + i, currentX + j);
             }
         }
 
-        this.setPosition(possiblePositions[0
-                + (int) (Math.random() * ((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -53,12 +54,12 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
                 // так заебись? или хуево?
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentX + i, currentY + j));
+                        .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolCapitalP>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord)) {
+                if (!Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentX + i, currentY + j);
                 } else {
                     continue;
@@ -66,14 +67,14 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -83,17 +84,18 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
                 // так заебись? или хуево?
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentX + i, currentY + j));
+                        .get(new Position(currentY + i, currentX + j));
 
-                if (Util.hasSymbol<SymbolCapitalR>(symbolsInCurrentCoord) || Util.hasSymbol<SymbolSmallR>(symbolsInCurrentCoord)) {
-                    possiblePositions[i] = new Position(currentX + i, currentY + j);
+                if (Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)
+                        || Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)) {
+                    possiblePositions[i] = new Position(currentY + i, currentX + j);
                 } else {
                     continue;
                 }
             }
         }
-        //  TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        // TODO проверка на пустоту
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override

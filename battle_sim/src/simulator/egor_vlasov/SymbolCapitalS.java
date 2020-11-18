@@ -4,6 +4,7 @@ import simulator.do_not_change.*;
 import simulator.egor_vlasov.*;
 import java.util.Random;
 import simulator.egor_vlasov.Util;
+import java.util.LinkedList;
 
 public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;
@@ -27,7 +28,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -39,8 +40,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
             }
         }
 
-        this.setPosition(possiblePositions[0
-                + (int) (Math.random() * ((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public void attackSmart() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -64,7 +64,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord)
+                if (!Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
@@ -73,15 +73,15 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
     public void jump() {
         System.out.println("jump");
         System.out.println(this.getPosition());
-        int randomX = 0 + (int) (Math.random() * 9);
-        int randomY = 0 + (int) (Math.random() * 9);
+        int randomX = Util.getRandomNumber(0, 9);
+        int randomY = Util.getRandomNumber(0, 9);
 
         Position newPosition = new Position(randomY, randomX);
         this.setPosition(newPosition);

@@ -3,6 +3,7 @@ package simulator.egor_vlasov;
 import simulator.do_not_change.*;
 import simulator.egor_vlasov.*;
 import java.util.LinkedList;
+import java.util.List;
 import simulator.egor_vlasov.Util;
 
 public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
@@ -27,7 +28,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -35,12 +36,11 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentY + i, currentX + j);
+                possiblePositions.add(new Position(currentY + i, currentX + j));
             }
         }
 
-        this.setPosition(possiblePositions[0
-                + (int) (Math.random() * ((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -64,10 +64,10 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.hasSymbol<SymbolCapitalS>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolSmallS>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolCapitalR>(symbolsInCurrentCoord)
-                        && !Util.hasSymbol<SymbolSmallR>(symbolsInCurrentCoord)) {
+                if (!Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)
+                        && !Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentY + i, currentX + j);
                 } else {
                     continue;
@@ -75,14 +75,14 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
             }
         }
         // TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
+        List<Position> possiblePositions = new List();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -94,7 +94,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (Util.hasSymbol<SymbolSmallP>(symbolsInCurrentCoord) || Util.hasSymbol<SymbolCapitalP>(symbolsInCurrentCoord)) {
+                if (Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord) || Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
                     possiblePositions[i] = new Position(currentY + i, currentX + j);
                 } else {
                     continue;
@@ -102,15 +102,15 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
             }
         }
         //  TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
+        this.setPosition(possiblePositions[Util.getRandomNumber(0, possiblePositions.size())]);
     }
 
     @Override
     public void jump() {
         System.out.println("jump");
         System.out.println(this.getPosition());
-        int randomX = 0 + (int) (Math.random() * 9);
-        int randomY = 0 + (int) (Math.random() * 9);
+        int randomX = Util.getRandomNumber(0, 9);
+        int randomY = Util.getRandomNumber(0, 9);
 
         Position newPosition = new Position(randomY, randomX);
         this.setPosition(newPosition);

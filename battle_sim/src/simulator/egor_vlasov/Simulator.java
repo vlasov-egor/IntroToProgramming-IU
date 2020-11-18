@@ -36,7 +36,7 @@ public class Simulator extends Object {
     public void tick() {
         // Move fucking letters;
         setStage("Moving symbols");
-        Stream stream = Stream.empty();
+        Stream<Symbol> stream = Stream.empty();
         for (int x = 0; x <= 10; x++) {
             for (int y = 0; y <= 10; y++) {
                 stream = Stream.concat(stream, MyWorldController.world.get(new Position(y, x)).stream());
