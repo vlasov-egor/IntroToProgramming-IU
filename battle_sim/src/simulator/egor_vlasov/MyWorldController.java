@@ -25,7 +25,7 @@ public class MyWorldController extends WorldController {
         }
 
         //  TODO
-        for (int i = 0; i < Util.getRandomNumber(50, 100); i++) {
+        for (int i = 0; i < Util.getRandomNumber(100, 200); i++) {
             int randomX = Util.getRandomNumber(0, 9);
             int randomY = Util.getRandomNumber(0, 9);
             int randomSightDistance = Util.getRandomNumber(1, 5);

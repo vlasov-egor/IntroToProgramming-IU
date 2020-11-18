@@ -36,7 +36,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
         this.sightDistance = small.getSightDistance() + 1;
-        this.numberIterationsAlive = small.getNumberIterationsAlive() + 1;
+        this.numberIterationsAlive = 0;
     }
 
     @Override
@@ -73,7 +73,9 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
             }
         }
 
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override
@@ -85,7 +87,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
      * @return
      */
     public void die() {
-        
+
     }
 
     @Override
@@ -121,8 +123,10 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override

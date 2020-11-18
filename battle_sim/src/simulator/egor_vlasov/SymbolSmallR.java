@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SymbolSmallR extends Symbol implements Passive, SmallCase {
 
-    public final int UPGRADE_ITERATIONS = Util.getRandomNumber(30, 50);;
+    public final int UPGRADE_ITERATIONS = Util.getRandomNumber(30, 50);
 
     /**
      * Return the Manhattan distance between this position and another object of
@@ -109,8 +109,10 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override
@@ -146,8 +148,10 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override

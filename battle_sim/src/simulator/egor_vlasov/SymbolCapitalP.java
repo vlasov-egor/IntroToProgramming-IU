@@ -35,7 +35,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
         this.sightDistance = small.getSightDistance() + 1;
-        this.numberIterationsAlive = small.getNumberIterationsAlive() + 1;
+        this.numberIterationsAlive = 0;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
+                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalS.class)
                         && !Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallS.class)
                         && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalR.class)
                         && !Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallR.class)) {
@@ -122,8 +122,10 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override
@@ -159,8 +161,10 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override

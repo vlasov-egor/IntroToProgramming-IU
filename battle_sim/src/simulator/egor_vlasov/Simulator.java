@@ -1,8 +1,7 @@
 package simulator.egor_vlasov;
 
 import simulator.egor_vlasov.MyWorldController;
-import simulator.do_not_change.Position;
-import simulator.do_not_change.Symbol;
+import simulator.do_not_change.*;
 import java.util.stream.*;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -165,11 +164,20 @@ public class Simulator extends Object {
      * @param other
      * @return
      */
-    List<Symbol>[] split(List<Symbol> list, Predicate<Symbol> predicate) {
-        List<Symbol>[] splitArr;
-        Map<Boolean, List<Symbol>> splitted = list.stream().collect(Collectors.partitioningBy(list));
+    ArrayList<Symbol>[] split(ArrayList<Symbol> list, Predicate<Symbol> predicate) {
+        ArrayList<Symbol>[] splitArr = new ArrayList[2];
 
-        splitArr = new ArrayList<Symbol>[] { splitted.get(true), splitted.get(false) };
+        splitArr[0] = new ArrayList();
+        splitArr[1] = new ArrayList();
+
+        for (Symbol o: list) {
+            if (predicate.test(o)) {
+                splitArr[0].add(o);
+            } else {
+                splitArr[1].add(o);
+            }
+        }
+
         return splitArr;
     }
 
@@ -185,27 +193,31 @@ public class Simulator extends Object {
         Stream<Symbol> stream = Stream.empty();
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
-                List<Symbol> toDie = new ArrayList();
-                List<Symbol> cell = MyWorldController.world.get(new Position(y, x));
+                ArrayList<Symbol> toDie = new ArrayList();
+                ArrayList<Symbol> cell = new ArrayList(MyWorldController.world.get(new Position(y, x)));
 
-                if (Util.<SymbolCapitalR>hasSymbol(cell) || Util.<SymbolSmallR>hasSymbol(cell)) {
-                    List<Symbol>[] splitted = split(cell,
+                if (cell.size() == 0) {
+                    continue;
+                }
+
+                if (Util.hasSymbol(cell, SymbolCapitalR.class) || Util.hasSymbol(cell, SymbolSmallR.class)) {
+                    ArrayList<Symbol>[] splitted = split(cell,
                             s -> (s instanceof SymbolCapitalS) || (s instanceof SymbolSmallS));
 
                     toDie.addAll(splitted[0]);
                     cell = splitted[1];
                 }
 
-                if (Util.<SymbolCapitalP>hasSymbol(cell) || Util.<SymbolSmallP>hasSymbol(cell)) {
-                    List<Symbol>[] splitted = split(cell,
+                if (Util.hasSymbol(cell, SymbolCapitalP.class) || Util.hasSymbol(cell, SymbolSmallP.class)) {
+                    ArrayList<Symbol>[] splitted = split(cell,
                             s -> (s instanceof SymbolCapitalR) || (s instanceof SymbolSmallR));
 
                     toDie.addAll(splitted[0]);
                     cell = splitted[1];
                 }
 
-                if (Util.<SymbolCapitalS>hasSymbol(cell) || Util.<SymbolSmallS>hasSymbol(cell)) {
-                    List<Symbol>[] splitted = split(cell,
+                if (Util.hasSymbol(cell, SymbolCapitalS.class) || Util.hasSymbol(cell, SymbolSmallS.class)) {
+                    ArrayList<Symbol>[] splitted = split(cell,
                             s -> (s instanceof SymbolCapitalP) || (s instanceof SymbolSmallP));
 
                     toDie.addAll(splitted[0]);
@@ -242,6 +254,134 @@ public class Simulator extends Object {
         }
     }
 
+    void upgrade() {
+        setStage("Symbols upgrade");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                Stream<Symbol> cell = MyWorldController.world.get(new Position(y, x)).stream();
+                Map<Boolean, List<Symbol>> cellSplitted = cell.collect(Collectors.partitioningBy(s -> {
+                    if (s instanceof SymbolSmallP
+                            && ((SymbolSmallP) s).UPGRADE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+                    if (s instanceof SymbolSmallR
+                            && ((SymbolSmallR) s).UPGRADE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+                    if (s instanceof SymbolSmallS
+                            && ((SymbolSmallS) s).UPGRADE_ITERATIONS == s.getNumberIterationsAlive()) {
+                        return true;
+                    }
+
+                    return false;
+                }));
+
+                LinkedList ll = new LinkedList();
+                ll.addAll(cellSplitted.get(false));
+
+                MyWorldController.world.put(new Position(y, x), ll);
+                stream = Stream.concat(stream, cellSplitted.get(true).stream());
+            }
+        }
+
+        List<SmallCase> symbolsToUpgrade = stream.map(s -> (SmallCase)s).collect(Collectors.toList());
+        controller.smallCaseUpgrade(symbolsToUpgrade);
+        draw();
+    }
+
+    void sex() {
+        setStage("Symbols sex");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                LinkedList ll = MyWorldController.world.get(new Position(y, x));
+
+                long CapitalP_Count = ll.stream().filter(s -> s instanceof SymbolCapitalP).count();
+                long CapitalR_Count = ll.stream().filter(s -> s instanceof SymbolCapitalR).count();
+                long CapitalS_Count = ll.stream().filter(s -> s instanceof SymbolCapitalS).count();
+                long SmallP_Count = ll.stream().filter(s -> s instanceof SymbolSmallP).count();
+                long SmallR_Count = ll.stream().filter(s -> s instanceof SymbolSmallR).count();
+                long SmallS_Count = ll.stream().filter(s -> s instanceof SymbolSmallS).count();
+
+                long pCount = CapitalP_Count / 2 + SmallP_Count / 2;
+                long rCount = CapitalR_Count / 2 + SmallR_Count / 2;
+                long sCount = CapitalS_Count / 2 + SmallS_Count / 2;
+                
+                for (long i = 0; i < pCount; i++) {
+                    int randomSightDistance = Util.getRandomNumber(1, 5);
+                    MyWorldController.world.get(new Position(y, x)).add(new SymbolSmallP(new Position(y, x), randomSightDistance));
+                }
+
+                for (long i = 0; i < rCount; i++) {
+                    int randomSightDistance = Util.getRandomNumber(1, 5);
+                    MyWorldController.world.get(new Position(y, x)).add(new SymbolSmallR(new Position(y, x), randomSightDistance));
+                }
+
+                for (long i = 0; i < sCount; i++) {
+                    int randomSightDistance = Util.getRandomNumber(1, 5);
+                    MyWorldController.world.get(new Position(y, x)).add(new SymbolSmallS(new Position(y, x), randomSightDistance));
+                }
+            }
+        }
+
+        draw();
+    }
+
+    void jump() {
+        setStage("Symbols jump");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                ArrayList<Symbol> cell = new ArrayList(MyWorldController.world.get(new Position(y, x)));
+                ArrayList<Symbol> toJump;
+
+                ArrayList<Symbol>[] splitted = split(cell,
+                            s -> (s instanceof SymbolCapitalP) || (s instanceof SymbolCapitalR) || (s instanceof SymbolCapitalS));
+
+                toJump = splitted[0];
+                cell = splitted[1];
+
+                stream = Stream.concat(stream, toJump.stream());
+
+                LinkedList ll = new LinkedList();
+                ll.addAll(cell);
+                MyWorldController.world.put(new Position(y, x), ll);
+            }
+        }
+
+        List<CapitalCase> symbolsToJump = stream.map(s -> (CapitalCase)s).collect(Collectors.toList());
+        controller.capitalCaseJump(symbolsToJump);
+        draw();
+    }
+
+    void aggressiveAttack() {
+        setStage("Symbols attack");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                ArrayList<Symbol> cell = new ArrayList(MyWorldController.world.get(new Position(y, x)));
+                ArrayList<Symbol> toAttack;
+
+                ArrayList<Symbol>[] splitted = split(cell,
+                            s -> (s instanceof SymbolSmallP) || (s instanceof SymbolCapitalR) || (s instanceof SymbolCapitalS));
+
+                toAttack = splitted[0];
+                cell = splitted[1];
+
+                stream = Stream.concat(stream, toAttack.stream());
+
+                LinkedList ll = new LinkedList();
+                ll.addAll(cell);
+                MyWorldController.world.put(new Position(y, x), ll);
+            }
+        }
+
+        List<Aggressive> symbolsToAttack = stream.map(s -> (Aggressive)s).collect(Collectors.toList());
+        controller.aggressiveAttackSmart(symbolsToAttack);
+        draw();
+    }
+
     /**
      * Return the Manhattan distance between this position and another object of
      * Position
@@ -254,7 +394,15 @@ public class Simulator extends Object {
         // wait
         die();
         // wait
+        upgrade();
+        // wait
         fight();
+        // wait
+        jump();
+        // wait
+        sex();
+        // wait
+        aggressiveAttack();
         // wait
         becomeOlder();
     }

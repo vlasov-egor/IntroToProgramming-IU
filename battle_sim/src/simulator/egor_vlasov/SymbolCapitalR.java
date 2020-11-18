@@ -35,7 +35,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
         this.idSymbol = small.getIdSymbol();
         this.position = small.getPosition();
         this.sightDistance = small.getSightDistance() + 1;
-        this.numberIterationsAlive = small.getNumberIterationsAlive() + 1;
+        this.numberIterationsAlive = 0;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                 }
             }
         }
-
+        
         this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
     }
 
@@ -99,7 +99,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
         List<Position> possiblePositions = new ArrayList();
-
+        
         for (int i = 0; i <= sightDistance; i++) {
             for (int j = 0; j <= sightDistance; j++) {
                 if (i == 0 && j == 0) {
@@ -120,8 +120,10 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                 }
             }
         }
-        // TODO проверка на пустоту
-        this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+
+        if (possiblePositions.size() > 0) {
+            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        }
     }
 
     @Override
