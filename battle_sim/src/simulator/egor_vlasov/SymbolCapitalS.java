@@ -6,6 +6,7 @@ import java.util.Random;
 import simulator.egor_vlasov.Util;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;
@@ -29,7 +30,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -53,7 +54,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
     public void attackSmart() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {

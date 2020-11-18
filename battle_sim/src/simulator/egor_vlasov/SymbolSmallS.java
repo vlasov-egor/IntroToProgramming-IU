@@ -5,6 +5,7 @@ import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class SymbolSmallS extends Symbol implements Passive, SmallCase {
 
@@ -21,7 +22,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -45,7 +46,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -75,7 +76,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {

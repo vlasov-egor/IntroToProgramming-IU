@@ -5,6 +5,7 @@ import simulator.egor_vlasov.*;
 import java.util.LinkedList;
 import java.util.List;
 import simulator.egor_vlasov.Util;
+import java.util.ArrayList;
 
 public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;
@@ -28,7 +29,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public void move() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -52,7 +53,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public void escape() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
@@ -82,7 +83,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
     public void moveBreed() {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
-        List<Position> possiblePositions = new List();
+        List<Position> possiblePositions = new ArrayList();
 
         for (int i = 0; i < sightDistance; ++i) {
             for (int j = 0; j < sightDistance; ++j) {
