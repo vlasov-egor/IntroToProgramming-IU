@@ -96,7 +96,7 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
             }
         }
         //  TODO проверка на пустоту
-        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);¸
+        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
     }
 
     @Override
