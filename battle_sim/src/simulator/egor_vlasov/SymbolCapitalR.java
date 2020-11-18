@@ -4,6 +4,7 @@ import simulator.do_not_change.*;
 import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
     public final int UPGRADE_ITERATIONS = 50;
@@ -35,7 +36,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentY + i, currentX + j);
+                possiblePositions.add(new Position(currentY + i, currentX + j));
             }
         }
 
@@ -68,7 +69,7 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                         && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions[i] = new Position(currentY + i, currentX + j);
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
                 }
             }
         }

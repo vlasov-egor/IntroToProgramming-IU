@@ -4,6 +4,7 @@ import simulator.do_not_change.*;
 import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
@@ -28,7 +29,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentY + i, currentX + j);
+                possiblePositions.add(new Position(currentY + i, currentX + j));
             }
         }
 
@@ -60,7 +61,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                         && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions[i] = new Position(currentY + i, currentX + j);
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
                 }
             }
         }

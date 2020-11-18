@@ -4,6 +4,7 @@ import simulator.do_not_change.*;
 import simulator.egor_vlasov.*;
 import simulator.egor_vlasov.Util;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SymbolSmallS extends Symbol implements Passive, SmallCase {
 
@@ -28,7 +29,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                     continue;
                 }
 
-                possiblePositions[i] = new Position(currentY + i, currentX + j);
+                possiblePositions.add(new Position(currentY + i, currentX + j));
             }
         }
 
@@ -60,7 +61,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                         && !Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions[i] = new Position(currentY + i, currentX + j);
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
                 } else {
                     continue;
                 }
@@ -88,7 +89,7 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
 
                 if (Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
                         || Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions[i] = new Position(currentY + i, currentX + j);
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
                 } else {
                     continue;
                 }
