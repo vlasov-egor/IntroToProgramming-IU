@@ -15,7 +15,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
-        this.numberIterationsAlive = UPGRADE_ITERATIONS + 1;
+        this.numberIterationsAlive = 0;
     }
 
     public SymbolCapitalS(SymbolSmallS small) {

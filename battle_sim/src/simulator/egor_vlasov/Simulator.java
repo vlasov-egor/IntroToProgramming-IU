@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.functions.*;
 
 public class Simulator extends Object {
     MyWorldController controller;
@@ -80,7 +81,7 @@ public class Simulator extends Object {
 
     // Move fucking letters;
     void move() {
-        setStage("Moving symbols");
+        setStage("Symbols move");
         Stream<Symbol> stream = Stream.empty();
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
@@ -93,8 +94,8 @@ public class Simulator extends Object {
         draw();
     }
 
-    void kill() {
-        setStage("Killing symbols");
+    void die() {
+        setStage("Symbols die");
         Stream<Symbol> stream = Stream.empty();
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
@@ -126,6 +127,32 @@ public class Simulator extends Object {
         draw();
     }
 
+    List<Symbol>[] split(Predicate<Symbol> predicate) {
+
+    }
+
+    void fight() {
+        setStage("Symbols fight");
+        Stream<Symbol> stream = Stream.empty();
+        for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
+            for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
+                List<Symbol> toDie = new ArrayList();
+                List<Symbol> cell = MyWorldController.world.get(new Position(y, x));
+
+                if (Util.<SymbolCapitalR>hasSymbol(cell) || Util.<SymbolSmallR>hasSymbol(cell)) {
+
+                }
+
+                
+                stream = Stream.concat(stream, cellSplitted.get(true).stream());
+            }
+        }
+
+        List<Symbol> symbolsToDie = stream.collect(Collectors.toList());
+        controller.symbolsDie(symbolsToDie);
+        draw();
+    }
+
     void becomeOlder() {
         for (int x = 0; x < MyWorldController.MAX_ROWS; x++) {
             for (int y = 0; y < MyWorldController.MAX_COLS; y++) {
@@ -137,7 +164,9 @@ public class Simulator extends Object {
     public void tick() {
         move();
         // wait
-        kill();
+        die();
+        // wait
+        fight();
         // wait
         becomeOlder();
     }

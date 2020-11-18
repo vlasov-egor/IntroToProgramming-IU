@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
-    public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);;
+    public final int DIE_ITERATIONS = Util.getRandomNumber(70, 100);
 
     public SymbolCapitalR(Position position, int sightDistance) {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
-        this.numberIterationsAlive = UPGRADE_ITERATIONS + 1;
+        this.numberIterationsAlive = 0;
     }
 
     public SymbolCapitalR(SymbolSmallR small) {

@@ -14,7 +14,7 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
         this.idSymbol = Symbol.COUNT_SYMBOLS++;
         this.position = position;
         this.sightDistance = sightDistance;
-        this.numberIterationsAlive = UPGRADE_ITERATIONS + 1;
+        this.numberIterationsAlive = 0;
     }
 
     public SymbolCapitalP(SymbolSmallP small) {
