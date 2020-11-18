@@ -102,6 +102,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
         List<Position> possiblePositions = new ArrayList();
+        List<Position> truePossiblePositions = new ArrayList();
 
         for (int i = 0; i <= sightDistance; i++) {
             for (int j = 0; j <= sightDistance; j++) {
@@ -109,23 +110,34 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                     continue;
                 }
 
-                // так заебись? или хуево?
-                LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentY + i, currentX + j));
-
-                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallP.class)
-                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalP.class)) {
-                    continue;
-                } else {
-                    if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
-                        possiblePositions.add(new Position(currentY + i, currentX + j));
-                    }
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX + j < MyWorldController.MAX_COLS) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY + i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY - i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX + j < MyWorldController.MAX_COLS) {
+                    possiblePositions.add(new Position(currentY - i, currentX + j));
                 }
             }
         }
 
-        if (possiblePositions.size() > 0) {
-            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        for (Position position : possiblePositions) {
+            LinkedList symbolsInCurrentCoord = MyWorldController.world.get(position);
+
+            if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallP.class)
+                    && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalP.class)) {
+                continue;
+            } else {
+                truePossiblePositions.add(position);
+            }
+        }
+
+        if (truePossiblePositions.size() > 0) {
+            this.setPosition(truePossiblePositions.get(Util.getRandomNumber(0, truePossiblePositions.size() - 1)));
         }
     }
 
@@ -138,8 +150,6 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
      * @return
      */
     public void jump() {
-        System.out.println("jump");
-        System.out.println(this.getPosition());
         int randomX = Util.getRandomNumber(0, 9);
         int randomY = Util.getRandomNumber(0, 9);
 

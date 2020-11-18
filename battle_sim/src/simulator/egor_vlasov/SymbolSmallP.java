@@ -86,6 +86,7 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
         int currentX = this.getPosition().column;
         int currentY = this.getPosition().row;
         List<Position> possiblePositions = new ArrayList();
+        List<Position> truePossiblePositions = new ArrayList();
 
         for (int i = 0; i <= sightDistance; i++) {
             for (int j = 0; j <= sightDistance; j++) {
@@ -93,23 +94,34 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                     continue;
                 }
 
-                // так заебись? или хуево?
-                LinkedList symbolsInCurrentCoord = MyWorldController.world
-                        .get(new Position(currentY + i, currentX + j));
-
-                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallR.class)
-                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalR.class)) {
-                    continue;
-                } else {
-                    if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
-                        possiblePositions.add(new Position(currentY + i, currentX + j));
-                    }
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX + j < MyWorldController.MAX_COLS) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
+                if (currentY + i < MyWorldController.MAX_ROWS && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY + i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX - j >= 0) {
+                    possiblePositions.add(new Position(currentY - i, currentX - j));
+                }
+                if (currentY - i >= 0 && currentX + j < MyWorldController.MAX_COLS) {
+                    possiblePositions.add(new Position(currentY - i, currentX + j));
                 }
             }
         }
 
-        if (possiblePositions.size() > 0) {
-            this.setPosition(possiblePositions.get(Util.getRandomNumber(0, possiblePositions.size() - 1)));
+        for (Position position : possiblePositions) {
+            LinkedList symbolsInCurrentCoord = MyWorldController.world.get(position);
+
+            if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallR.class)
+                    && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalR.class)) {
+                continue;
+            } else {
+                truePossiblePositions.add(position);
+            }
+        }
+
+        if (truePossiblePositions.size() > 0) {
+            this.setPosition(truePossiblePositions.get(Util.getRandomNumber(0, truePossiblePositions.size() - 1)));
         }
     }
 

@@ -24,8 +24,8 @@ public class MyWorldController extends WorldController {
             }
         }
 
-        //  TODO
-        for (int i = 0; i < Util.getRandomNumber(100, 200); i++) {
+        //  Creating random Symbols in random positions
+        for (int i = 0; i < Util.getRandomNumber(50, 100); i++) {
             int randomX = Util.getRandomNumber(0, 9);
             int randomY = Util.getRandomNumber(0, 9);
             int randomSightDistance = Util.getRandomNumber(1, 5);
@@ -60,7 +60,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  symbolsMove
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
@@ -68,21 +68,21 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  symbolsDie
     public void symbolsDie(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.die();
         }
     }
 
-    //  TODO
+    //  smallCaseUpgrade
     public void smallCaseUpgrade(List<SmallCase> symbols) {
         for (SmallCase symbol : symbols) {
             symbol.upgrade();
         }
     }
 
-    //  TODO
+    //  capitalCaseJump
     public void capitalCaseJump(List<CapitalCase> symbols) {
         for (CapitalCase symbol : symbols) {
             symbol.jump();
@@ -90,7 +90,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  passiveEscape
     public void passiveEscape(List<Passive> symbols) {
         for (Passive symbol : symbols) {
             symbol.escape();
@@ -98,7 +98,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  passiveBreed
     public void passiveBreed(List<Passive> symbols) {
         for (Passive symbol : symbols) {
             symbol.moveBreed();
@@ -106,7 +106,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  aggressiveAttackSmart
     public void aggressiveAttackSmart(List<Aggressive> symbols) {
         for (Aggressive symbol : symbols) {
             symbol.attackSmart();
@@ -114,7 +114,7 @@ public class MyWorldController extends WorldController {
         }
     }
 
-    //  TODO
+    //  plotWorld
     public String plotWorld() {
         return "";
     }
