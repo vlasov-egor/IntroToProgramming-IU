@@ -97,8 +97,8 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallR.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalR.class)) {
                     continue;
                 } else {
                     if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {

@@ -97,10 +97,10 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalS.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallS.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalP.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallP.class)) {
                     if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
                         possiblePositions.add(new Position(currentY + i, currentX + j));
                     }
@@ -136,8 +136,8 @@ public class SymbolSmallR extends Symbol implements Passive, SmallCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)
-                        || Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)) {
+                if (Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalR.class)
+                        || Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallR.class)) {
                     if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
                         possiblePositions.add(new Position(currentY + i, currentX + j));
                     }

@@ -110,8 +110,8 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalS.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallS.class)) {
                     continue;
                 } else {
                     if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {

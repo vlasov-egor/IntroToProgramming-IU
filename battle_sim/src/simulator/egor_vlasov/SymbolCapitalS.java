@@ -85,7 +85,7 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
      * @return
      */
     public void die() {
-        System.out.println("I died (c) Alex");
+        
     }
 
     @Override
@@ -111,8 +111,8 @@ public class SymbolCapitalS extends Symbol implements Aggressive, CapitalCase {
                 LinkedList symbolsInCurrentCoord = MyWorldController.world
                         .get(new Position(currentY + i, currentX + j));
 
-                if (!Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)
-                        && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
+                if (!Util.hasSymbol(symbolsInCurrentCoord, SymbolSmallP.class)
+                        && !Util.hasSymbol(symbolsInCurrentCoord, SymbolCapitalP.class)) {
                     continue;
                 } else {
                     if (currentX + i < MyWorldController.MAX_COLS && currentY + j < MyWorldController.MAX_ROWS) {
