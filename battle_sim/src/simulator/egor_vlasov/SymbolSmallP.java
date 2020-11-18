@@ -18,21 +18,58 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
 
     @Override
     public void move() {
+        int currentX = this.getPosition().x;
+        int currentY = this.getPosition().y;
+        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
+        for (int i = 0; i < sightDistance; ++i) {
+            for (int j = 0; j < sightDistance; ++j) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
+                possiblePositions[i] = new Position(currentX + i, currentY + j);
+            }
+        }
+
+        this.setPosition(possiblePositions[0
+                + (int) (Math.random() * ((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1)]);
     }
 
     @Override
     public void die() {
-
+        System.out.println("I died");
     }
 
     @Override
     public void attackSmart() {
+        int currentX = this.getPosition().x;
+        int currentY = this.getPosition().y;
+        Position[] possiblePositions = new Position[((2 * sightDistance) + 1) * ((2 * sightDistance) + 1) - 1];
 
+        for (int i = 0; i < sightDistance; ++i) {
+            for (int j = 0; j < sightDistance; ++j) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
+                // так заебись? или хуево?
+                LinkedList symbolsInCurrentCoord = MyWorldController.world
+                        .get(new Position(currentX + i, currentY + j));
+
+                if (symbolsInCurrentCoord.indexOf("r") == -1 && symbolsInCurrentCoord.indexOf("R") == -1) {
+                    continue;
+                } else {
+                    possiblePositions[i] = new Position(currentX + i, currentY + j);
+                }
+            }
+        }
+        // TODO проверка на пустоту
+        this.setPosition(possiblePositions[0 + (int) (Math.random() * possiblePositions.length)]);
     }
 
     @Override
     public void upgrade() {
-
+        MyWorldController.world.get(this.getPosition()).add(new SymbolCapitalP(this));
     }
 }
