@@ -37,7 +37,9 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions.add(new Position(currentY + i, currentX + j));
+                if (currentX + i < 10 && currentY + j < 10) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
             }
         }
 
@@ -69,7 +71,9 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
                         && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 } else {
                     continue;
                 }
@@ -97,7 +101,9 @@ public class SymbolCapitalP extends Symbol implements Passive, CapitalCase {
 
                 if (Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)
                         || Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 } else {
                     continue;
                 }

@@ -37,7 +37,9 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                     continue;
                 }
 
-                possiblePositions.add(new Position(currentY + i, currentX + j));
+                if (currentX + i < 10 && currentY + j < 10) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
             }
         }
 
@@ -69,7 +71,9 @@ public class SymbolCapitalR extends Symbol implements Aggressive, CapitalCase {
                         && !Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 }
             }
         }

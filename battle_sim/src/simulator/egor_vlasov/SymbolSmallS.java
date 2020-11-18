@@ -30,7 +30,9 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                     continue;
                 }
 
-                possiblePositions.add(new Position(currentY + i, currentX + j));
+                if (currentX + i < 10 && currentY + j < 10) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
             }
         }
 
@@ -62,7 +64,9 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
                         && !Util.<SymbolSmallR>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolCapitalP>hasSymbol(symbolsInCurrentCoord)
                         && !Util.<SymbolSmallP>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 } else {
                     continue;
                 }
@@ -90,7 +94,9 @@ public class SymbolSmallS extends Symbol implements Passive, SmallCase {
 
                 if (Util.<SymbolCapitalS>hasSymbol(symbolsInCurrentCoord)
                         || Util.<SymbolSmallS>hasSymbol(symbolsInCurrentCoord)) {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 } else {
                     continue;
                 }

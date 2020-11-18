@@ -64,7 +64,7 @@ public class MyWorldController extends WorldController {
     public void symbolsMove(List<Symbol> symbols) {
         for (Symbol symbol : symbols) {
             symbol.move();
-            System.out.print(symbol.getPosition());
+            System.out.println(symbol.getPosition().column + " " + symbol.getPosition().row);
             MyWorldController.world.get(symbol.getPosition()).add(symbol);
         }
     }

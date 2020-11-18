@@ -30,7 +30,9 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                     continue;
                 }
 
-                possiblePositions.add(new Position(currentY + i, currentX + j));
+                if (currentX + i < 10 && currentY + j < 10) {
+                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                }
             }
         }
 
@@ -62,7 +64,9 @@ public class SymbolSmallP extends Symbol implements Aggressive, SmallCase {
                         && !Util.<SymbolCapitalR>hasSymbol(symbolsInCurrentCoord)) {
                     continue;
                 } else {
-                    possiblePositions.add(new Position(currentY + i, currentX + j));
+                    if (currentX + i < 10 && currentY + j < 10) {
+                        possiblePositions.add(new Position(currentY + i, currentX + j));
+                    }
                 }
             }
         }
