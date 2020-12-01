@@ -18,7 +18,7 @@ public class MyCalculator extends Calculator {
      * @return the double sum of all elements
      */
     public double summarize() {
-        List<Number> numbers = getNumbers();
+        List<Number> numbers = new ArrayList<Number>(getNumbers());
         double sum = 0;
         for (int i : numbers) {
             sum += i;
@@ -33,7 +33,7 @@ public class MyCalculator extends Calculator {
      * @return the double result of all element multiplication
      */
     public double multiply() {
-        List<Number> numbers = getNumbers();
+        List<Number> numbers = new ArrayList<Number>(getNumbers());
         double product = 1;
         for (int i : numbers) {
             product *= i;
@@ -46,7 +46,7 @@ public class MyCalculator extends Calculator {
      * This method allows deleting all negative numbers from the list
      */
     public void deleteNegativeNumbers() {
-        List<Number> numbers = getNumbers();
+        List<Number> numbers = new ArrayList<Number>(getNumbers());
         for (int i = 0; i < numbers.size(); ++i) {
             if (numbers[i] < 0) {
                 numbers.remove(i);
@@ -61,7 +61,7 @@ public class MyCalculator extends Calculator {
      * @param divisor the divisor
      */
     public void divideBy(double divisor) {
-        List<Number> numbers = getNumbers();
+        List<Number> numbers = new ArrayList<Number>(getNumbers());
         try {
             for (int i = 0; i < numbers.size(); ++i) {
                 numbers[i] /= divisor;
