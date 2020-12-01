@@ -77,6 +77,7 @@ public class MyNumberCreator extends NumberCreator {
      * The user has to print the values via console. The incorrectly printed data
      * has to be handled
      *
+     * @param numberQuantity the quantity of numbers in the list
      * @return the list of numbers inserted by user
      */
     @Override
@@ -90,6 +91,11 @@ public class MyNumberCreator extends NumberCreator {
         return numbers;
     }
 
+    /**
+     * This function read numbers
+     *
+     * @return the list of numbers inserted by user
+     */
     private Number readNumber() {
         Scanner input = new Scanner(System.in);
         List<Class<? extends Number>> classes = new ArrayList<Class<? extends Number>>(Arrays.asList(BigDecimal.class,
@@ -111,6 +117,11 @@ public class MyNumberCreator extends NumberCreator {
         }
     }
 
+    /**
+     * This function for getting value from numbers list
+     *
+     * @return values from numbers list
+     */
     public <T> Method getValue(Class<T> c) {
         return Stream.of(c.getMethods()).filter(m -> m.getName() == "valueOf")
                 .filter(m -> m.getParameterTypes()[0] != String.class).findFirst().get();

@@ -9,6 +9,11 @@ import java.util.List;
 import java.math.*;
 
 public class MyCalculator extends Calculator {
+    
+    /**
+     * Constructor
+     *
+     */
     public MyCalculator(List<Number> numbers) {
         super(numbers);
     }
