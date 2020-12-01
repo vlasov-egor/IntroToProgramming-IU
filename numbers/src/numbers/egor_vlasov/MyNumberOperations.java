@@ -1,7 +1,6 @@
-package numbers.src.numbers.egor_vlasov;
-
+package egor_vlasov;
 public class MyNumberOperations {
-    public static void main(String[]) {
-        
+    public static void main(String[] args) {
+
     }
 }

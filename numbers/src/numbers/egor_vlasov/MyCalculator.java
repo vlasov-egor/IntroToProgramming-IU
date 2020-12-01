@@ -1,16 +1,17 @@
-package numbers.src.numbers.egor_vlasov;
+package numbers.egor_vlasov;
 
-import numbers.src.numbers.egor_vlasov.MyNumberCreator;
+import numbers.egor_vlasov.MyNumberCreator;
 import numbers.do_not_change.Calculator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable.UnaryOp.Sqrt;
-
 import java.math.*;
 
 public class MyCalculator extends Calculator {
+    public MyCalculator(List<Number> numbers) {
+        super(numbers);
+    }
 
     /**
      * This method allows summarizing all elements of the input list of numbers
@@ -20,8 +21,8 @@ public class MyCalculator extends Calculator {
     public double summarize() {
         List<Number> numbers = new ArrayList<Number>(getNumbers());
         double sum = 0;
-        for (int i : numbers) {
-            sum += i;
+        for (int i = 0; i < numbers.size(); ++i) {
+            sum += numbers.get(i).doubleValue();
         }
 
         return sum;
@@ -35,8 +36,8 @@ public class MyCalculator extends Calculator {
     public double multiply() {
         List<Number> numbers = new ArrayList<Number>(getNumbers());
         double product = 1;
-        for (int i : numbers) {
-            product *= i;
+        for (int i = 0; i < numbers.size(); ++i) {
+            product *= numbers.get(i).doubleValue();
         }
 
         return product;
@@ -48,7 +49,7 @@ public class MyCalculator extends Calculator {
     public void deleteNegativeNumbers() {
         List<Number> numbers = new ArrayList<Number>(getNumbers());
         for (int i = 0; i < numbers.size(); ++i) {
-            if (numbers[i] < 0) {
+            if (numbers.get(i).doubleValue() < 0) {
                 numbers.remove(i);
             }
         }
@@ -64,7 +65,7 @@ public class MyCalculator extends Calculator {
         List<Number> numbers = new ArrayList<Number>(getNumbers());
         try {
             for (int i = 0; i < numbers.size(); ++i) {
-                numbers[i] /= divisor;
+                numbers.set(i, numbers.get(i).doubleValue() / divisor);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +80,7 @@ public class MyCalculator extends Calculator {
         List<Number> numbers = new ArrayList<Number>(getNumbers());
         try {
             for (int i = 0; i < numbers.size(); ++i) {
-                numbers[i] = Math.sqrt(numbers[i]);
+                numbers.set(i, Math.sqrt(numbers.get(i).doubleValue()));
             }
         } catch (Exception e) {
             e.printStackTrace();

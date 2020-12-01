@@ -1,4 +1,4 @@
-package numbers.src.numbers.egor_vlasov;
+package numbers.egor_vlasov;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,16 +30,16 @@ public class MyNumberCreator extends NumberCreator {
         Scanner input = new Scanner(System.in);
 
         try {
-            int quantity = input.nextInt();
-            if (MIN_NUMBER_QUANTITY > quantity || quantity > MAX_NUMBER_QUANTITY) {
+            int numberQuantity = input.nextInt();
+            if (MIN_NUMBER_QUANTITY > numberQuantity || numberQuantity > MAX_NUMBER_QUANTITY) {
                 throw new Exception("");
             }
-            return quantity;
-        } catch (Exception exception) {
-            System.out.println("Wrong quantity");
-            return validateAndSetNumberQuantity();
+            return numberQuantity;
         } catch (InputMismatchException e) {
             input.next();
+            return validateAndSetNumberQuantity();
+        } catch (Exception exception) {
+            System.out.println("Wrong quantity");
             return validateAndSetNumberQuantity();
         }
     }
@@ -65,7 +65,6 @@ public class MyNumberCreator extends NumberCreator {
                 Method cMethod = Number.class.getMethod(pType.getName() + "Value");
                 numbers.add(randomClass.cast(m.invoke(randomClass, cMethod.invoke(randomNumber))));
             } catch (Exception e) {
-                // TODO
                 e.printStackTrace();
             }
         }
@@ -87,6 +86,8 @@ public class MyNumberCreator extends NumberCreator {
         for (int i = 0; i < numberQuantity; i++) {
             numbers.add(readNumber());
         }
+
+        return numbers;
     }
 
     private Number readNumber() {
