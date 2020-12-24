@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.*;
+import java.util.Collections;
 
 public class Simulator extends Object {
     MyWorldController controller;
@@ -64,7 +65,7 @@ public class Simulator extends Object {
 
         int sumlen = Arrays.stream(length).sum() + (MyWorldController.MAX_COLS) * 3 + 1;
 
-        System.out.println("-".repeat(sumlen));
+        System.out.println(String.join("", Collections.nCopies(sumlen, "-")));
         for (int y = 0; y < MyWorldController.MAX_ROWS; y++) {
             System.out.print("| ");
             for (int x = 0; x < MyWorldController.MAX_COLS; x++) {
@@ -84,11 +85,11 @@ public class Simulator extends Object {
                         System.out.print(MyWorldController.SMALL_S);
                 });
 
-                System.out.print(" ".repeat(length[x] - controller.world.get(current).size()));
+                System.out.print(String.join("", Collections.nCopies(length[x] - controller.world.get(current).size(), " ")));
                 System.out.print(" | ");
             }
             System.out.println();
-            System.out.println("-".repeat(sumlen));
+            System.out.println(String.join("", Collections.nCopies(sumlen, "-")));
         }
     }
 
@@ -97,9 +98,9 @@ public class Simulator extends Object {
      */
     public void setStage(String stage) {
         System.out.println("");
-        System.out.println("-".repeat(stage.length() + 10));
+        System.out.println(String.join("", Collections.nCopies(stage.length() + 10, "-")));
         System.out.println("|    " + stage + "    |");
-        System.out.println("-".repeat(stage.length() + 10));
+        System.out.println(String.join("", Collections.nCopies(stage.length() + 10, "-")));
         System.out.println("");
     }
 
