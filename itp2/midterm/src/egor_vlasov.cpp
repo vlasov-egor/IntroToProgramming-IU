@@ -31,6 +31,8 @@ class Thing
 {
 public:
     int id;
+
+    //  ITEM 3.d
     virtual ~Thing() = default;
 };
 
@@ -63,6 +65,7 @@ public:
     using Person::Person;
 
     //  operators overloading
+    //  ITEM 3.f
     friend bool operator==(Student &lhs, Thing *rhs);
     friend bool operator>=(Student &lhs, Thing *rhs);
 };
@@ -74,6 +77,7 @@ public:
 class Car : public Thing
 {
 public:
+    //  ITEM 3.d
     Car()
     {
         //  genering of new id
@@ -88,7 +92,11 @@ public:
 class Transformer : public Car, public Person
 {
 public:
+    //  ITEM 3.d
+    //  ITEM 3.b
+    //  ITEM 3.k
     //  constructor inheritance
+    Transformer() = delete;
     Transformer(Sex sex) : Person(sex) {}
 
     //  operators overloading
@@ -101,7 +109,6 @@ bool operator==(Student &lhs, Thing *rhs)
 {
     return (lhs.id == rhs->id);
 }
-
 bool operator>=(Student &lhs, Thing *rhs)
 {
     string right_type;
@@ -142,7 +149,6 @@ bool operator==(Car &lhs, Thing *rhs)
 {
     return (lhs.id == rhs->id);
 }
-
 bool operator>=(Car &lhs, Thing *rhs)
 {
     return false;
@@ -153,7 +159,6 @@ bool operator==(Transformer &lhs, Thing *rhs)
 {
     return (((Person)lhs).id == rhs->id);
 }
-
 bool operator>=(Transformer &lhs, Thing *rhs)
 {
     string right_type;
@@ -210,10 +215,12 @@ public:
  * 
  * @tparam T 
  */
+//  ITEM 3.o
 template <class T>
 class SinglyLinkedListADT
 {
 public:
+    //  ITEM 3.j
     virtual void add(T item) = 0;
     virtual T least() = 0;
     virtual T greatest() = 0;
@@ -232,6 +239,7 @@ public:
 template <class T>
 class SinglyLinkedList : SinglyLinkedListADT<T>
 {
+    //  ITEM 3.e
 private:
     int len = 0;
     Node<T> *head = NULL;
@@ -375,6 +383,8 @@ public:
             }
 
             prev->next_node = current->next_node;
+
+            len--;
         }
     }
 
@@ -443,11 +453,20 @@ public:
         return &tail;
     }
 
+    void recalculateTail()
+    {
+        auto cur = head;
+        while (cur->next_node != NULL)
+            cur = cur->next_node;
+
+        tail = cur;
+    }
+
     /**
-     * @brief returns size of list
-     * 
-     * @return int size
-     */
+ * @brief returns size of list
+ * 
+ * @return int size
+ */
     int size()
     {
         return len;
@@ -474,27 +493,34 @@ public:
  */
 ostream &operator<<(ostream &out, Thing *o)
 {
-    out << "Id: " << o->id;
-
-    if (Person *person = dynamic_cast<Person *>(o))
-    {
-        out << " Sex: " << person->sex;
-    }
+    printf("Id: %02d |", o->id);
 
     if (Transformer *trans = dynamic_cast<Transformer *>(o))
     {
-        out << " Type: Transformer";
+        out << " Type: Transformer |";
     }
     else if (Student *student = dynamic_cast<Student *>(o))
     {
-        out << " Type: Student";
+        out << " Type: Student     |";
     }
     else if (Car *car = dynamic_cast<Car *>(o))
     {
-        out << " Type: Car";
+        out << " Type: Car         |";
     }
 
-    out << ";" << endl;
+    if (Person *person = dynamic_cast<Person *>(o))
+    {
+        if (person->sex == 1)
+        {
+            out << " Sex: FEMALE";
+        }
+        else
+        {
+            out << " Sex: MALE";
+        }
+    }
+
+    out << endl;
 
     return out;
 }
@@ -561,6 +587,8 @@ void mergeSort(Node<T> **head)
     *head = MergeSorted(a, b);
 }
 
+// ITEM 3.c
+//  ITEM 3.k
 /**
  * @brief function for comparing 2 Things objects
  * 
@@ -569,7 +597,7 @@ void mergeSort(Node<T> **head)
  * @return true 
  * @return false 
  */
-bool compare(Thing *a, Thing *b)
+const bool compare(Thing *a, Thing *b)
 {
     // for Transformers
     if (Transformer *trans = dynamic_cast<Transformer *>(a))
@@ -653,7 +681,7 @@ Node<T> *partition(Node<T> *head, Node<T> *end,
 
     while (cur != pivot)
     {
-        if (cur->data <= pivot->data)
+        if (compare(cur->data, pivot->data))
         {
             // First node with value <= than the pivot - new head
             if ((*newHead) == NULL)
@@ -743,8 +771,8 @@ void quickSort(Node<T> **headRef, Node<T> **tailRef)
 // main function
 int main(int argc, char const *argv[])
 {
-    auto boxes = new SinglyLinkedList<Thing *>();
     // !TASK 0.1
+    auto boxes = new SinglyLinkedList<Thing *>();
 
     // random genering
     srand(time(0));
@@ -778,6 +806,12 @@ int main(int argc, char const *argv[])
     }
 
     // printing
+
+    cout << "---------------" << endl;
+    cout << "| RANDOM LIST |" << endl;
+    cout << "---------------" << endl;
+    cout << endl;
+
     for (int i = 0; i < boxes->size(); ++i)
     {
         cout << boxes->get(i);
@@ -791,6 +825,12 @@ int main(int argc, char const *argv[])
 
     // !TASK 0.3
     // printing
+
+    cout << "--------------" << endl;
+    cout << "| MERGE SORT |" << endl;
+    cout << "--------------" << endl;
+    cout << endl;
+
     for (int i = 0; i < boxes->size(); ++i)
     {
         cout << boxes->get(i);
@@ -798,27 +838,49 @@ int main(int argc, char const *argv[])
 
     cout << endl;
 
-    // scrambling
-    // !TASK 0.4
+    boxes->recalculateTail();
 
-    // for (int i = boxes->size() / 2; i < boxes->size(); i++)
-    // {
-    //     auto tmp = boxes->get(i);
-    //     boxes->remove(i);
-    //     boxes->add(tmp);
-    // }
+    cout << endl;
+
+    // !TASK 0.4
+    // scrambling
+    int in_size = boxes->size();
+    for (int i = 0; i < in_size; i++)
+    {
+        int rr = rand() % (in_size - 2) + 1;
+        auto tmp = boxes->get(boxes->size() - rr);
+        boxes->remove(boxes->size() - rr);
+        boxes->add(tmp);
+    }
+
+    boxes->recalculateTail();
 
     // printing
-    // for (int i = 0; i < boxes->size(); ++i)
-    // {
-    //     cout << boxes->get(i);
-    // }
 
-    // cout << endl;
+    cout << "------------------" << endl;
+    cout << "| SCRAMBLED LIST |" << endl;
+    cout << "------------------" << endl;
+    cout << endl;
+
+    for (int i = 0; i < boxes->size(); ++i)
+    {
+        cout << boxes->get(i);
+    }
+
+    cout << endl;
+
+    // !TASK 0.5
 
     // quick sort
     quickSort<Thing *>(boxes->getHeadRef(), boxes->getTailRef());
+
     // printing
+
+    cout << "--------------" << endl;
+    cout << "| QUICK SORT |" << endl;
+    cout << "--------------" << endl;
+    cout << endl;
+
     for (int i = 0; i < boxes->size(); ++i)
     {
         cout << boxes->get(i);
