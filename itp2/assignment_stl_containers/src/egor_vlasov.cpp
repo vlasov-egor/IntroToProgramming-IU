@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -232,13 +233,41 @@ ostream &operator<<(ostream &out, Thing *o)
         }
     }
 
-    out << endl;
-
     return out;
 }
 
 int main(int argc, char const *argv[])
 {
-    /* code */
+    // !Task 1
+    vector<Thing *> boxes;
+
+    // random genering
+    Sex cur_sex = Sex::MALE;
+    for (int i = 0; i < 10; i++)
+    {
+
+        if (i % 2)
+        {
+            cur_sex = Sex::FEMALE;
+        }
+        else
+        {
+            cur_sex = Sex::MALE;
+        }
+
+        auto car = new Car();
+        auto student = new Student(cur_sex);
+        auto trans = new Transformer(cur_sex);
+
+        boxes.push_back(car);
+        boxes.push_back(student);
+        boxes.push_back((Car *)trans);
+    }
+
+    for (auto i : boxes)
+    {
+        cout << i << endl;
+    }
+
     return 0;
 }
