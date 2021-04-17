@@ -27,6 +27,7 @@
         "iterator": "cpp",
         "limits": "cpp",
         "new": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "stack": "cpp"
     }
 }

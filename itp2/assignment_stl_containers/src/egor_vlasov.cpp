@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
+#include <stack>
 
 using namespace std;
 
@@ -239,7 +241,7 @@ ostream &operator<<(ostream &out, Thing *o)
 int main(int argc, char const *argv[])
 {
     // !Task 1
-    vector<Thing *> boxes;
+    vector<Thing *> boxes_vector;
 
     // random genering
     Sex cur_sex = Sex::MALE;
@@ -259,15 +261,42 @@ int main(int argc, char const *argv[])
         auto student = new Student(cur_sex);
         auto trans = new Transformer(cur_sex);
 
-        boxes.push_back(car);
-        boxes.push_back(student);
-        boxes.push_back((Car *)trans);
+        boxes_vector.push_back(car);
+        boxes_vector.push_back(student);
+        boxes_vector.push_back((Car *)trans);
     }
 
-    for (auto i : boxes)
+    for (auto i : boxes_vector)
     {
         cout << i << endl;
     }
 
-    return 0;
+    // !Task 2
+    list<Thing *> boxes_list;
+    stack<Thing *> boxes_stack;
+
+    // copying
+    for (auto i : boxes_vector)
+    {
+        boxes_list.push_back(i);
+        boxes_stack.push(i);
+    }
+
+    cout << endl;
+
+    // cout list
+    for (auto i : boxes_list)
+    {
+        cout << i << endl;
+    }
+
+    cout << endl;
+
+    // cout stack
+    for (stack<Thing *> tmp = boxes_stack; !tmp.empty(); tmp.pop())
+        cout << tmp.top() << endl;
+
+    // !Task 3
+
+        return 0;
 }
