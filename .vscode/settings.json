@@ -28,6 +28,27 @@
         "limits": "cpp",
         "new": "cpp",
         "system_error": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "__bit_reference": "cpp",
+        "__functional_03": "cpp",
+        "__mutex_base": "cpp",
+        "__node_handle": "cpp",
+        "__threading_support": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "deque": "cpp",
+        "exception": "cpp",
+        "functional": "cpp",
+        "memory_resource": "cpp",
+        "istream": "cpp",
+        "list": "cpp",
+        "mutex": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "tuple": "cpp",
+        "typeinfo": "cpp"
     }
 }

@@ -10,6 +10,7 @@
 #include <vector>
 #include <list>
 #include <stack>
+#include <random>
 
 using namespace std;
 
@@ -238,6 +239,31 @@ ostream &operator<<(ostream &out, Thing *o)
     return out;
 }
 
+template <typename... E, template <typename...> class T>
+void shuffle(T<E...> container)
+{
+    // vector<E> tmp;
+    // for (auto i : container)
+    // {
+    //     tmp.push_back(i);
+    // }
+
+    // E buffer;
+    // for (int i = container.size() - 1; i > -1; i++)
+    // {
+    //     int j = rand() % (i + 1);
+    //     buffer = container[i];
+    //     container[i] = container[j];
+    //     container[j] = buffer;
+    // }
+
+    // container = T<E>();
+    // for (int i = 0; i < tmp.size(); i++)
+    // {
+    cout << typeid(T<E...>).name() << endl;
+    // }
+}
+
 int main(int argc, char const *argv[])
 {
     // !Task 1
@@ -297,6 +323,10 @@ int main(int argc, char const *argv[])
         cout << tmp.top() << endl;
 
     // !Task 3
+    vector<int> a = {1,
+                     1,
+                     1};
+    ::shuffle(a);
 
-        return 0;
+    return 0;
 }
