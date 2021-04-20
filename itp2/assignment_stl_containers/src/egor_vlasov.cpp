@@ -239,29 +239,136 @@ ostream &operator<<(ostream &out, Thing *o)
     return out;
 }
 
-template <typename... E, template <typename...> class T>
-void shuffle(T<E...> container)
+template <class T>
+void shuffle_stack(stack<T> &container)
 {
-    // vector<E> tmp;
-    // for (auto i : container)
-    // {
-    //     tmp.push_back(i);
-    // }
+    vector<T> tmp;
+    while (!container.empty())
+    {
+        tmp.push_back(container.top());
+        container.pop();
+    }
 
-    // E buffer;
-    // for (int i = container.size() - 1; i > -1; i++)
-    // {
-    //     int j = rand() % (i + 1);
-    //     buffer = container[i];
-    //     container[i] = container[j];
-    //     container[j] = buffer;
-    // }
+    for (int i = tmp.size() - 1; i > -1; i--)
+    {
+        int j = rand() % (i + 1);
+        auto buffer = tmp[i];
+        tmp[i] = tmp[j];
+        tmp[j] = buffer;
+    }
 
-    // container = T<E>();
-    // for (int i = 0; i < tmp.size(); i++)
-    // {
-    cout << typeid(T<E...>).name() << endl;
-    // }
+    for (auto i : tmp)
+    {
+        container.push(i);
+    }
+}
+
+template <class T>
+void shuffle_list(list<T> &container)
+{
+    vector<T> tmp;
+    for (auto i : container)
+    {
+        tmp.push_back(i);
+    }
+
+    container = list<T>();
+
+    T buffer;
+    for (int i = tmp.size() - 1; i > -1; i--)
+    {
+        int j = rand() % (i + 1);
+        buffer = tmp[i];
+        tmp[i] = tmp[j];
+        tmp[j] = buffer;
+    }
+
+    for (auto i : tmp)
+    {
+        container.push_back(i);
+    }
+}
+
+template <class T>
+void sort_stack(stack<T> &container)
+{
+    // copying to vector
+    vector<T> tmp;
+    while (!container.empty())
+    {
+        tmp.push_back(container.top());
+        container.pop();
+    }
+
+    // vector sorting
+    for (int i = 0; i < tmp.size() - 1; i++)
+    {
+        for (int j = i + 1; j < tmp.size(); j++)
+        {
+
+            if (tmp[i]->id > tmp[j]->id)
+            {
+                auto buffer = tmp[j];
+                tmp[j] = tmp[i];
+                tmp[i] = buffer;
+            }
+        }
+    }
+
+    // stack refilling
+    for (auto i : tmp)
+    {
+        container.push(i);
+    }
+}
+
+template <class T>
+void sort_list(list<T> &container)
+{
+    // copying to vector
+    vector<T> tmp;
+    for (auto i : container)
+    {
+        tmp.push_back(i);
+    }
+
+    container = list<T>();
+
+    // vector sorting
+    for (int i = 0; i < tmp.size() - 1; i++)
+    {
+        for (int j = i + 1; j < tmp.size(); j++)
+        {
+            if (tmp[i]->id > tmp[j]->id)
+            {
+                auto buffer = tmp[j];
+                tmp[j] = tmp[i];
+                tmp[i] = buffer;
+            }
+        }
+    }
+
+    // stack refilling
+    for (auto i : tmp)
+    {
+        container.push_back(i);
+    }
+}
+
+template <class T>
+void show_stack(stack<T> &container)
+{
+    for (stack<Thing *> tmp = container; !tmp.empty(); tmp.pop())
+        cout << tmp.top() << endl;
+}
+
+template <class T>
+void show_list(list<T> &container)
+{
+    for (auto i : container)
+    {
+        cout << i << endl;
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -292,6 +399,11 @@ int main(int argc, char const *argv[])
         boxes_vector.push_back((Car *)trans);
     }
 
+    cout << "----------" << endl;
+    cout << "| VECTOR |" << endl;
+    cout << "----------" << endl;
+    cout << endl;
+
     for (auto i : boxes_vector)
     {
         cout << i << endl;
@@ -310,23 +422,81 @@ int main(int argc, char const *argv[])
 
     cout << endl;
 
+    cout << "--------" << endl;
+    cout << "| LIST |" << endl;
+    cout << "--------" << endl;
+    cout << endl;
+
     // cout list
-    for (auto i : boxes_list)
-    {
-        cout << i << endl;
-    }
+    show_list(boxes_list);
 
     cout << endl;
 
     // cout stack
-    for (stack<Thing *> tmp = boxes_stack; !tmp.empty(); tmp.pop())
-        cout << tmp.top() << endl;
+    cout << "---------" << endl;
+    cout << "| STACK |" << endl;
+    cout << "---------" << endl;
+    cout << endl;
+
+    show_stack(boxes_stack);
+    cout << endl;
 
     // !Task 3
-    vector<int> a = {1,
-                     1,
-                     1};
-    ::shuffle(a);
+    shuffle_stack(boxes_stack);
+    shuffle_list(boxes_list);
+
+    // cout shuffled list
+    cout << "-----------------" << endl;
+    cout << "| SHUFFLED LIST |" << endl;
+    cout << "-----------------" << endl;
+    cout << endl;
+
+    show_list(boxes_list);
+
+    cout << endl;
+
+    // cout shuffled stack
+    cout << "------------------" << endl;
+    cout << "| SHUFFLED STACK |" << endl;
+    cout << "------------------" << endl;
+    cout << endl;
+
+    show_stack(boxes_stack);
+
+    cout << endl;
+
+    // !TASK 4
+    sort_stack(boxes_stack);
+    sort_list(boxes_list);
+
+    // cout sorted list
+    cout << "---------------" << endl;
+    cout << "| SORTED LIST |" << endl;
+    cout << "---------------" << endl;
+    cout << endl;
+
+    show_list(boxes_list);
+
+    cout << endl;
+
+    // cout sorted stack
+    cout << "----------------" << endl;
+    cout << "| SORTED STACK |" << endl;
+    cout << "----------------" << endl;
+    cout << endl;
+
+    show_stack(boxes_stack);
+
+    cout << endl;
+
+    // !TASK 6
+    cout << "HIGHEST THING IN LIST: " << endl
+         << boxes_list.back() << endl;
+    cout << "HIGHEST THING IN STACK: " << endl
+         << boxes_stack.top() << endl;
+
+    // !TASK 7
+    // boolean predicate function
 
     return 0;
 }
