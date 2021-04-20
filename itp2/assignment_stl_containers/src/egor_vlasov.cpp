@@ -253,12 +253,13 @@ void sort_list(list<T> &container)
 template <class T>
 void show_stack(stack<T> &container)
 {
-    for (stack<Thing *> tmp = container; !tmp.empty(); tmp.pop())
+    for (stack<T> tmp = container; !tmp.empty(); tmp.pop())
         cout << tmp.top() << endl;
 }
 
-template <class T>
-void show_list(list<T> &container)
+// ITEM 3.c: use for list and vector
+template <typename... E, template <typename...> class T>
+void show_array(T<E...> &container)
 {
     for (auto i : container)
     {
@@ -279,6 +280,30 @@ bool predicate_func(Thing *thing)
     }
 
     return false;
+}
+
+template <int size, class T>
+list<T> toList(vector<T> &v)
+{
+    list<T> res(size, 0);
+    for (auto i : v)
+    {
+        res.push_back(i);
+    }
+
+    return res;
+}
+
+template <class T>
+stack<T> toStack(vector<T> &v)
+{
+    stack<T> res;
+    for (auto i : v)
+    {
+        res.push(i);
+    }
+
+    return res;
 }
 
 int main(int argc, char const *argv[])
@@ -314,22 +339,17 @@ int main(int argc, char const *argv[])
     cout << "----------" << endl;
     cout << endl;
 
-    for (auto i : boxes_vector)
-    {
-        cout << i << endl;
-    }
+    show_array(boxes_vector);
 
     cout << endl;
 
     // !Task 2
-    list<Thing *> boxes_list;
-    stack<Thing *> boxes_stack;
 
-    for (auto i : boxes_vector)
-    {
-        boxes_stack.push(i);
-        boxes_list.push_back(i);
-    }
+    // ITEM 3.e: type of object that returns func toList is a type of boxes_list
+    // ITEM 3.b: this sets the size of the original vector in void
+    decltype(toList<0>(boxes_vector)) boxes_list = toList<0>(boxes_vector);
+
+    stack<Thing *> boxes_stack = toStack(boxes_vector);
 
     cout << "--------" << endl;
     cout << "| LIST |" << endl;
@@ -337,7 +357,7 @@ int main(int argc, char const *argv[])
     cout << endl;
 
     // cout list
-    show_list(boxes_list);
+    show_array(boxes_list);
 
     cout << endl;
 
@@ -360,7 +380,7 @@ int main(int argc, char const *argv[])
     cout << "-----------------" << endl;
     cout << endl;
 
-    show_list(boxes_list);
+    show_array(boxes_list);
 
     cout << endl;
 
@@ -384,7 +404,7 @@ int main(int argc, char const *argv[])
     cout << "---------------" << endl;
     cout << endl;
 
-    show_list(boxes_list);
+    show_array(boxes_list);
 
     cout << endl;
 
@@ -420,10 +440,7 @@ int main(int argc, char const *argv[])
     cout << "-----------------" << endl;
     cout << endl;
 
-    for (auto i : filtered_boxes)
-    {
-        cout << i << endl;
-    }
+    show_array(filtered_boxes);
 
     return 0;
 }
