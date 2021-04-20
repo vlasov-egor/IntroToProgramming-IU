@@ -67,10 +67,6 @@ class Student : public Person
 public:
     //  constructor inheritance
     using Person::Person;
-
-    //  operators overloading
-    friend bool operator==(Student &lhs, Thing *rhs);
-    friend bool operator>=(Student &lhs, Thing *rhs);
 };
 
 /**
@@ -85,10 +81,6 @@ public:
         //  genering of new id
         id = lastId++;
     }
-
-    //  operators overloading
-    friend bool operator==(Car &lhs, Thing *rhs);
-    friend bool operator>=(Car &lhs, Thing *rhs);
 };
 
 /**
@@ -101,104 +93,7 @@ public:
     //  constructor inheritance
     Transformer() = delete;
     Transformer(Sex sex) : Person(sex) {}
-
-    //  operators overloading
-    friend bool operator==(Transformer &lhs, Thing *rhs);
-    friend bool operator>=(Transformer &lhs, Thing *rhs);
 };
-
-//  operators overloading for student class
-bool operator==(Student &lhs, Thing *rhs)
-{
-    return (lhs.id == rhs->id);
-}
-bool operator>=(Student &lhs, Thing *rhs)
-{
-    string right_type;
-    Sex right_sex;
-
-    // defining the type of object
-    if (Student *student = dynamic_cast<Student *>(rhs))
-    {
-        right_type = "student";
-        right_sex = student->sex;
-    }
-    else if (Transformer *trans = dynamic_cast<Transformer *>(rhs))
-    {
-        right_type = "trans";
-        right_sex = trans->sex;
-    }
-    else if (Car *car = dynamic_cast<Car *>(rhs))
-    {
-        right_type = "car";
-    }
-
-    if (right_type == "car" || right_type == "trans")
-    {
-        return true;
-    }
-    else if (right_sex == Sex::FEMALE)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-//  operators overloading for car class
-bool operator==(Car &lhs, Thing *rhs)
-{
-    return (lhs.id == rhs->id);
-}
-bool operator>=(Car &lhs, Thing *rhs)
-{
-    return false;
-}
-
-//  operators overloading for transformer class
-bool operator==(Transformer &lhs, Thing *rhs)
-{
-    return (((Person)lhs).id == rhs->id);
-}
-bool operator>=(Transformer &lhs, Thing *rhs)
-{
-    string right_type;
-    Sex right_sex;
-
-    if (Student *student = dynamic_cast<Student *>(rhs))
-    {
-        right_type = "student";
-        right_sex = student->sex;
-    }
-    else if (Transformer *trans = dynamic_cast<Transformer *>(rhs))
-    {
-        right_type = "trans";
-        right_sex = trans->sex;
-    }
-    else if (Car *student = dynamic_cast<Car *>(rhs))
-    {
-        right_type = "car";
-    }
-
-    if (right_type == "car")
-    {
-        return true;
-    }
-    else if (right_type == "student")
-    {
-        return false;
-    }
-    else if (right_sex == Sex::FEMALE)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
 
 /**
  * @brief << (cout) operator overloading 
@@ -371,6 +266,21 @@ void show_list(list<T> &container)
     }
 }
 
+// ITEM 3.g:
+bool predicate_func(Thing *thing)
+{
+    if (Transformer *trans = dynamic_cast<Transformer *>(thing))
+    {
+        return trans->sex == Sex::MALE;
+    }
+    else if (Student *student = dynamic_cast<Student *>(thing))
+    {
+        return student->sex == Sex::MALE;
+    }
+
+    return false;
+}
+
 int main(int argc, char const *argv[])
 {
     // !Task 1
@@ -409,18 +319,17 @@ int main(int argc, char const *argv[])
         cout << i << endl;
     }
 
+    cout << endl;
+
     // !Task 2
     list<Thing *> boxes_list;
     stack<Thing *> boxes_stack;
 
-    // copying
     for (auto i : boxes_vector)
     {
-        boxes_list.push_back(i);
         boxes_stack.push(i);
+        boxes_list.push_back(i);
     }
-
-    cout << endl;
 
     cout << "--------" << endl;
     cout << "| LIST |" << endl;
@@ -495,8 +404,26 @@ int main(int argc, char const *argv[])
     cout << "HIGHEST THING IN STACK: " << endl
          << boxes_stack.top() << endl;
 
+    cout << endl;
+
     // !TASK 7
+
     // boolean predicate function
+
+    // ITEM 3.g:
+    vector<Thing *> filtered_boxes;
+    copy_if(boxes_list.begin(), boxes_list.end(), back_inserter(filtered_boxes), predicate_func);
+
+    // cout sorted vector
+    cout << "-----------------" << endl;
+    cout << "| SORTED VECTOR |" << endl;
+    cout << "-----------------" << endl;
+    cout << endl;
+
+    for (auto i : filtered_boxes)
+    {
+        cout << i << endl;
+    }
 
     return 0;
 }
