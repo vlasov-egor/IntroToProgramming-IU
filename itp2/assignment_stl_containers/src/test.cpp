@@ -7,37 +7,37 @@
 #include <random>
 using namespace std;
 
-template <class T>
-void show_stack(stack<T> &container)
+// template <class T>
+// void show_stack(stack<T> &container)
+// {
+//     for (stack<T> tmp = container; !tmp.empty(); tmp.pop())
+//         cout << tmp.top() << endl;
+// }
+
+// template <class T>
+// void show_list(list<T> &container)
+// {
+//     for (auto i : container)
+//     {
+//         cout << i << endl;
+//     }
+// }
+
+template <class T = stack<int>>
+void show(T &container)
 {
-    for (stack<T> tmp = container; !tmp.empty(); tmp.pop())
-        cout << tmp.top() << endl;
 }
 
-template <class T>
-void show_list(list<T> &container)
+template <>
+void show<list<int>>(list<int> &container)
 {
-    for (auto i : container)
-    {
-        cout << i << endl;
-    }
+    cout << "l";
 }
 
-template <typename... E, template <typename...> class T>
-void show(T<E...> &container)
+template <>
+void show(stack<int> &container)
 {
-    if (typeid(container).name() == typeid(stack<E...>).name())
-    {
-        for (stack<E...> tmp = container; !tmp.empty(); tmp.pop())
-            cout << tmp.top() << endl;
-    }
-    else
-    {
-        for (auto i : container)
-        {
-            cout << i << endl;
-        }
-    }
+    cout << "q";
 }
 
 int main(int argc, char const *argv[])
@@ -62,5 +62,5 @@ int main(int argc, char const *argv[])
         c.push(i);
     }
 
-    show(c);
+    show(b);
 }

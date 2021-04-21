@@ -134,10 +134,51 @@ ostream &operator<<(ostream &out, Thing *o)
     return out;
 }
 
-template <class T>
-void shuffle_stack(stack<T> &container)
+// ITEM 3.d: void show can be used for list, vector and stack because of explicit specialization
+// ITEM 3.c: void show can be used for different containers (list, stack, vector)
+
+/**
+ * @brief shuffle some container
+ * in default case it is list
+ * 
+ * @tparam list<Thing *> 
+ * @param container 
+ */
+template <class T = list<Thing *>>
+void shuffle(T &container)
 {
-    vector<T> tmp;
+    vector<Thing *> tmp;
+    for (auto i : container)
+    {
+        tmp.push_back(i);
+    }
+
+    container = list<Thing *>();
+
+    for (int i = tmp.size() - 1; i > -1; i--)
+    {
+        int j = rand() % (i + 1);
+        auto buffer = tmp[i];
+        tmp[i] = tmp[j];
+        tmp[j] = buffer;
+    }
+
+    for (auto i : tmp)
+    {
+        container.push_back(i);
+    }
+}
+
+/**
+ * @brief shuffle stack
+ * 
+ * @tparam  
+ * @param container 
+ */
+template <>
+void shuffle<stack<Thing *>>(stack<Thing *> &container)
+{
+    vector<Thing *> tmp;
     while (!container.empty())
     {
         tmp.push_back(container.top());
@@ -158,37 +199,60 @@ void shuffle_stack(stack<T> &container)
     }
 }
 
-template <class T>
-void shuffle_list(list<T> &container)
+// ITEM 3.d: void show can be used for list, vector and stack because of explicit specialization
+// ITEM 3.c: void show can be used for different containers (list, stack, vector)
+
+/**
+ * @brief sorting container
+ * in default case it is list
+ * 
+ * @tparam list<Thing *> 
+ * @param container 
+ */
+template <class T = list<Thing *>>
+void sort(T &container)
 {
-    vector<T> tmp;
+    // copying to vector
+    vector<Thing *> tmp;
     for (auto i : container)
     {
         tmp.push_back(i);
     }
 
-    container = list<T>();
+    container = list<Thing *>();
 
-    T buffer;
-    for (int i = tmp.size() - 1; i > -1; i--)
+    // vector sorting
+    for (int i = 0; i < tmp.size() - 1; i++)
     {
-        int j = rand() % (i + 1);
-        buffer = tmp[i];
-        tmp[i] = tmp[j];
-        tmp[j] = buffer;
+        for (int j = i + 1; j < tmp.size(); j++)
+        {
+            if (tmp[i]->id > tmp[j]->id)
+            {
+                auto buffer = tmp[j];
+                tmp[j] = tmp[i];
+                tmp[i] = buffer;
+            }
+        }
     }
 
+    // stack refilling
     for (auto i : tmp)
     {
         container.push_back(i);
     }
 }
 
-template <class T>
-void sort_stack(stack<T> &container)
+/**
+ * @brief sorting stack
+ * 
+ * @tparam  
+ * @param container 
+ */
+template <>
+void sort<stack<Thing *>>(stack<Thing *> &container)
 {
     // copying to vector
-    vector<T> tmp;
+    vector<Thing *> tmp;
     while (!container.empty())
     {
         tmp.push_back(container.top());
@@ -217,49 +281,16 @@ void sort_stack(stack<T> &container)
     }
 }
 
-template <class T>
-void sort_list(list<T> &container)
-{
-    // copying to vector
-    vector<T> tmp;
-    for (auto i : container)
-    {
-        tmp.push_back(i);
-    }
-
-    container = list<T>();
-
-    // vector sorting
-    for (int i = 0; i < tmp.size() - 1; i++)
-    {
-        for (int j = i + 1; j < tmp.size(); j++)
-        {
-            if (tmp[i]->id > tmp[j]->id)
-            {
-                auto buffer = tmp[j];
-                tmp[j] = tmp[i];
-                tmp[i] = buffer;
-            }
-        }
-    }
-
-    // stack refilling
-    for (auto i : tmp)
-    {
-        container.push_back(i);
-    }
-}
-
-template <class T>
-void show_stack(stack<T> &container)
-{
-    for (stack<T> tmp = container; !tmp.empty(); tmp.pop())
-        cout << tmp.top() << endl;
-}
-
-// ITEM 3.c: use for list and vector
-template <typename... E, template <typename...> class T>
-void show_array(T<E...> &container)
+// ITEM 3.d: void show can be used for list, vector and stack because of explicit specialization
+// ITEM 3.c: void show can be used for different containers (list, stack, vector)
+/**
+ * @brief cout vector 
+ * 
+ * @tparam vector<Thing *> 
+ * @param container 
+ */
+template <class T = vector<Thing *>>
+void show(T &container)
 {
     for (auto i : container)
     {
@@ -267,7 +298,42 @@ void show_array(T<E...> &container)
     }
 }
 
+/**
+ * @brief cout list
+ * 
+ * @tparam  
+ * @param container 
+ */
+template <>
+void show<list<Thing *>>(list<Thing *> &container)
+{
+    for (auto i : container)
+    {
+        cout << i << endl;
+    }
+}
+
+/**
+ * @brief cout stack
+ * 
+ * @tparam  
+ * @param container 
+ */
+template <>
+void show<stack<Thing *>>(stack<Thing *> &container)
+{
+    for (stack<Thing *> tmp = container; !tmp.empty(); tmp.pop())
+        cout << tmp.top() << endl;
+}
+
 // ITEM 3.g:
+/**
+ * @brief predicate function for choosing only male things from vector
+ * 
+ * @param thing object
+ * @return true if male
+ * @return false if female
+ */
 bool predicate_func(Thing *thing)
 {
     if (Transformer *trans = dynamic_cast<Transformer *>(thing))
@@ -282,6 +348,14 @@ bool predicate_func(Thing *thing)
     return false;
 }
 
+/**
+ * @brief converting vector to list
+ * 
+ * @tparam size size of original list
+ * @tparam T objects in vector
+ * @param v original vector
+ * @return list<T> list
+ */
 template <int size, class T>
 list<T> toList(vector<T> &v)
 {
@@ -294,6 +368,13 @@ list<T> toList(vector<T> &v)
     return res;
 }
 
+/**
+ * @brief converting vector to stack
+ * 
+ * @tparam T objects in vector
+ * @param v original vector
+ * @return stack<T> stack
+ */
 template <class T>
 stack<T> toStack(vector<T> &v)
 {
@@ -308,6 +389,7 @@ stack<T> toStack(vector<T> &v)
 
 int main(int argc, char const *argv[])
 {
+
     // !Task 1
     vector<Thing *> boxes_vector;
 
@@ -334,12 +416,12 @@ int main(int argc, char const *argv[])
         boxes_vector.push_back((Car *)trans);
     }
 
-    cout << "----------" << endl;
-    cout << "| VECTOR |" << endl;
-    cout << "----------" << endl;
+    cout << "\033[1;31m----------\033[0m" << endl;
+    cout << "\033[1;31m| VECTOR |\033[0m" << endl;
+    cout << "\033[1;31m----------\033[0m" << endl;
     cout << endl;
 
-    show_array(boxes_vector);
+    show(boxes_vector);
 
     cout << endl;
 
@@ -351,77 +433,77 @@ int main(int argc, char const *argv[])
 
     stack<Thing *> boxes_stack = toStack(boxes_vector);
 
-    cout << "--------" << endl;
-    cout << "| LIST |" << endl;
-    cout << "--------" << endl;
+    cout << "\033[1;32m--------\033[0m" << endl;
+    cout << "\033[1;32m| LIST |\033[0m" << endl;
+    cout << "\033[1;32m--------\033[0m" << endl;
     cout << endl;
 
     // cout list
-    show_array(boxes_list);
+    show(boxes_list);
 
     cout << endl;
 
     // cout stack
-    cout << "---------" << endl;
-    cout << "| STACK |" << endl;
-    cout << "---------" << endl;
+    cout << "\033[1;34m---------\033[0m" << endl;
+    cout << "\033[1;34m| STACK |\033[0m" << endl;
+    cout << "\033[1;34m---------\033[0m" << endl;
     cout << endl;
 
-    show_stack(boxes_stack);
+    show(boxes_stack);
     cout << endl;
 
     // !Task 3
-    shuffle_stack(boxes_stack);
-    shuffle_list(boxes_list);
+    ::shuffle(boxes_stack);
+    ::shuffle(boxes_list);
 
     // cout shuffled list
-    cout << "-----------------" << endl;
-    cout << "| SHUFFLED LIST |" << endl;
-    cout << "-----------------" << endl;
+    cout << "\033[1;32m-----------------\033[0m" << endl;
+    cout << "\033[1;32m| SHUFFLED LIST |\033[0m" << endl;
+    cout << "\033[1;32m-----------------\033[0m" << endl;
     cout << endl;
 
-    show_array(boxes_list);
+    show(boxes_list);
 
     cout << endl;
 
     // cout shuffled stack
-    cout << "------------------" << endl;
-    cout << "| SHUFFLED STACK |" << endl;
-    cout << "------------------" << endl;
+    cout << "\033[1;34m------------------\033[0m" << endl;
+    cout << "\033[1;34m| SHUFFLED STACK |\033[0m" << endl;
+    cout << "\033[1;34m------------------\033[0m" << endl;
     cout << endl;
 
-    show_stack(boxes_stack);
+    show(boxes_stack);
 
     cout << endl;
 
     // !TASK 4
-    sort_stack(boxes_stack);
-    sort_list(boxes_list);
+    ::sort(boxes_stack);
+    ::sort(boxes_list);
 
     // cout sorted list
-    cout << "---------------" << endl;
-    cout << "| SORTED LIST |" << endl;
-    cout << "---------------" << endl;
+    cout << "\033[1;32m---------------\033[0m" << endl;
+    cout << "\033[1;32m| SORTED LIST |\033[0m" << endl;
+    cout << "\033[1;32m---------------\033[0m" << endl;
     cout << endl;
 
-    show_array(boxes_list);
+    show(boxes_list);
 
     cout << endl;
 
     // cout sorted stack
-    cout << "----------------" << endl;
-    cout << "| SORTED STACK |" << endl;
-    cout << "----------------" << endl;
+    cout << "\033[1;34m----------------\033[0m" << endl;
+    cout << "\033[1;34m| SORTED STACK |\033[0m" << endl;
+    cout << "\033[1;34m----------------\033[0m" << endl;
     cout << endl;
 
-    show_stack(boxes_stack);
+    show(boxes_stack);
 
     cout << endl;
 
     // !TASK 6
-    cout << "HIGHEST THING IN LIST: " << endl
+    cout << "\033[1;36mHIGHEST THING IN LIST: \033[0m" << endl
          << boxes_list.back() << endl;
-    cout << "HIGHEST THING IN STACK: " << endl
+    cout << "\033[1;36mHIGHEST THING IN STACK: \033[0m" << endl
          << boxes_stack.top() << endl;
 
     cout << endl;
@@ -435,12 +517,12 @@ int main(int argc, char const *argv[])
     copy_if(boxes_list.begin(), boxes_list.end(), back_inserter(filtered_boxes), predicate_func);
 
     // cout sorted vector
-    cout << "-----------------" << endl;
-    cout << "| SORTED VECTOR |" << endl;
-    cout << "-----------------" << endl;
+    cout << "\033[1;31m-----------------\033[0m" << endl;
+    cout << "\033[1;31m| SORTED VECTOR |\033[0m" << endl;
+    cout << "\033[1;31m-----------------\033[0m" << endl;
     cout << endl;
 
-    show_array(filtered_boxes);
+    show(filtered_boxes);
 
     return 0;
 }
