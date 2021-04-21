@@ -11,6 +11,7 @@
 #include <list>
 #include <stack>
 #include <random>
+#include <iterator>
 
 using namespace std;
 
@@ -199,6 +200,27 @@ void shuffle<stack<Thing *>>(stack<Thing *> &container)
     }
 }
 
+// ITEM 3.f: bubble sort on iterators
+/**
+ * @brief bubble sort
+ * 
+ * @tparam Iterator 
+ * @param begin begin of container
+ * @param end end of container
+ */
+template <class Iterator>
+void bubble_sort(Iterator begin, Iterator end)
+{
+    for (Iterator i = begin; i != end; ++i)
+    {
+        for (Iterator j = begin; j < i; ++j)
+        {
+            if ((*i)->id < (*j)->id)
+                iter_swap(i, j);
+        }
+    }
+}
+
 // ITEM 3.d: void show can be used for list, vector and stack because of explicit specialization
 // ITEM 3.c: void show can be used for different containers (list, stack, vector)
 
@@ -222,18 +244,9 @@ void sort(T &container)
     container = list<Thing *>();
 
     // vector sorting
-    for (int i = 0; i < tmp.size() - 1; i++)
-    {
-        for (int j = i + 1; j < tmp.size(); j++)
-        {
-            if (tmp[i]->id > tmp[j]->id)
-            {
-                auto buffer = tmp[j];
-                tmp[j] = tmp[i];
-                tmp[i] = buffer;
-            }
-        }
-    }
+
+    // ITEM 3.f: bubble sort on iterators
+    bubble_sort(tmp.begin(), tmp.end());
 
     // stack refilling
     for (auto i : tmp)
@@ -260,19 +273,9 @@ void sort<stack<Thing *>>(stack<Thing *> &container)
     }
 
     // vector sorting
-    for (int i = 0; i < tmp.size() - 1; i++)
-    {
-        for (int j = i + 1; j < tmp.size(); j++)
-        {
 
-            if (tmp[i]->id > tmp[j]->id)
-            {
-                auto buffer = tmp[j];
-                tmp[j] = tmp[i];
-                tmp[i] = buffer;
-            }
-        }
-    }
+    // ITEM 3.f: bubble sort on iterators
+    bubble_sort(tmp.begin(), tmp.end());
 
     // stack refilling
     for (auto i : tmp)
