@@ -13,7 +13,7 @@
 #include <vector>
 
 using namespace std;
-using namespace std::chrono_literals;
+using namespace chrono_literals;
 
 const int TIMEOUT = 400; // maximum number of milliseconds that a player is allowed to take
 
@@ -23,7 +23,7 @@ int lastId = 0;
 class Position
 {
 public:
-    std::tuple<int, int> pos;
+    tuple<int, int> pos;
     // TODO Implement the operator == and other operators if necessary
 };
 
@@ -41,34 +41,42 @@ public:
 };
 class SmallScissors : public Thing
 {
+    SmallScissors(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class CapitalScissors : public Thing
 {
+    CapitalScissors(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class SmallRock : public Thing
 {
+    SmallRock(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class CapitalRock : public Thing
 {
+    CapitalRock(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class SmallPaper : public Thing
 {
+    SmallPaper(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class CapitalPaper : public Thing
 {
+    CapitalPaper(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class Flag : public Thing
 {
+    Flag(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
 class Mountain : public Thing
 {
+    Mountain(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 class World
 {
@@ -89,29 +97,29 @@ class Action
 Action actionPlayerZero(const World world)
 {
     // TODO Implement some basic strategy and remove the lines below
-    std::cout << "actionPlayerZero()" << endl;
-    std::this_thread::sleep_for(385ms); // 0.4 seconds
+    cout << "actionPlayerZero()" << endl;
+    this_thread::sleep_for(385ms); // 0.4 seconds
 }
 
 Action actionPlayerOne(const World world)
 {
     // TODO Implement some basic strategy and remove the lines below
-    std::cout << "actionPlayerOne()" << endl;
-    std::this_thread::sleep_for(385ms); // 0.4 seconds
+    cout << "actionPlayerOne()" << endl;
+    this_thread::sleep_for(385ms); // 0.4 seconds
 }
 
 /**
  * The return is a pair: action and a boolean whether a timeout happened
  */
-std::tuple<Action, bool> waitPlayer(Action (*f)(World), World world)
+tuple<Action, bool> waitPlayer(Action (*f)(World), World world)
 {
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     // TODO Important. Below, action should be the result of calling the function passed as parameter
     Action action;
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end - start;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double, milli> elapsed = end - start;
     // TODO This line can be removed
-    std::cout << "Waited " << elapsed.count() << " ms\n";
+    cout << "Waited " << elapsed.count() << " ms\n";
     if (elapsed.count() > TIMEOUT) // if time > 0.3 s
         return {action, true};     // player failed to answer in less than 400 ms
     else
