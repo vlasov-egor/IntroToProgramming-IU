@@ -1,4 +1,11 @@
-// Lecture 13 - Type casting
+/**
+ * @file egor_vlasov.cpp
+ * @author Egor Vlasov (e.vlasov@innopolis.university)
+ * @brief implementation of two-dimensionalworld in which two players control units 
+ * that battle to take each other’s flag. 
+ * 
+ */
+
 #include <iostream>
 #include <tuple>
 #include <thread>
@@ -10,6 +17,9 @@ using namespace std::chrono_literals;
 
 const int TIMEOUT = 400; // maximum number of milliseconds that a player is allowed to take
 
+// it contains last id of object in list
+int lastId = 0;
+
 class Position
 {
 public:
@@ -17,6 +27,49 @@ public:
     // TODO Implement the operator == and other operators if necessary
 };
 
+class Thing
+{
+public:
+    int id; // ?I don't know for what, but let's it will be there
+    Position position;
+
+    Thing(int position_x, int position_y)
+    {
+        this->id = lastId++;
+        position.pos = make_tuple(position_x, position_y);
+    }
+};
+class SmallScissors : public Thing
+{
+};
+
+class CapitalScissors : public Thing
+{
+};
+
+class SmallRock : public Thing
+{
+};
+
+class CapitalRock : public Thing
+{
+};
+
+class SmallPaper : public Thing
+{
+};
+
+class CapitalPaper : public Thing
+{
+};
+
+class Flag : public Thing
+{
+};
+
+class Mountain : public Thing
+{
+};
 class World
 {
     // TODO Create a container of smart pointers of units and flags of player 0
