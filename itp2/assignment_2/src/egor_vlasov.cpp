@@ -3,24 +3,28 @@
 #include <tuple>
 #include <thread>
 #include <chrono>
+#include <vector>
 
 using namespace std;
 using namespace std::chrono_literals;
 
 const int TIMEOUT = 400; // maximum number of milliseconds that a player is allowed to take
 
-class World
-{
-    // TODO Create a container of smart pointers of units and flags of player 0
-    // TODO Create a container of smart pointers of units and flags of player 1
-    // TODO Create a container of smart pointers of mountains
-};
-
 class Position
 {
 public:
     std::tuple<int, int> pos;
     // TODO Implement the operator == and other operators if necessary
+};
+
+class World
+{
+    // TODO Create a container of smart pointers of units and flags of player 0
+    // TODO Create a container of smart pointers of units and flags of player 1
+    // TODO Create a container of smart pointers of mountains
+
+public:
+    vector<vector<Position>> world;
 };
 
 class Action
