@@ -19,6 +19,7 @@ using namespace std;
 using namespace chrono_literals;
 
 const int TIMEOUT = 400; // maximum number of milliseconds that a player is allowed to take
+// const int TIMEOUT = 4000; // maximum number of milliseconds that a player is allowed to take
 
 // it contains last id of object in list
 int lastId = 0;
@@ -77,7 +78,15 @@ public:
         return std::get<1>(pos);
     }
 
-    Position random_move()
+    Position(int x, int y)
+    {
+        pos = make_tuple(x, y);
+    }
+
+    Position(){};
+
+    Position
+    random_move()
     {
         Position npos;
 
@@ -306,8 +315,7 @@ bool occupied(Position pos, vector<shared_ptr<Thing>> &units)
     auto occuped = find_if(
         begin(units),
         end(units),
-        [&pos](shared_ptr<Thing> unit)
-        {
+        [&pos](shared_ptr<Thing> unit) {
             return unit->position == pos;
         });
 
@@ -336,7 +344,9 @@ Action actionPlayerZero(World &world)
 
     Action action(pos, target_pos);
 
+    this_thread::sleep_for(85ms); // 0.4 seconds
     // this_thread::sleep_for(385ms); // 0.4 seconds
+    // this_thread::sleep_for(1000ms); // 0.4 seconds
     return action;
 }
 
@@ -352,8 +362,7 @@ Action actionPlayerOne(World &world)
     sort(
         begin(world.units1),
         end(world.units1),
-        [&world](shared_ptr<Thing> a, shared_ptr<Thing> b)
-        {
+        [&world](shared_ptr<Thing> a, shared_ptr<Thing> b) {
             return a->position.distanceTo(world.flag0->position) < b->position.distanceTo(world.flag0->position);
         });
 
@@ -365,8 +374,19 @@ Action actionPlayerOne(World &world)
     int x = 0;
     int y = 0;
 
-    while (true)
+    bool obstacleAtLeft = false;
+    bool obstacleAtTop = false;
+
+    while (idx > 0)
     {
+        x = 0;
+        y = 0;
+
+        if (rand() % 50 > 30)
+        {
+            continue;
+        }
+
         idx--;
         auto unit1 = world.units1[idx];
 
@@ -380,37 +400,33 @@ Action actionPlayerOne(World &world)
         auto mountain = find_if(
             begin(world.mountains),
             end(world.mountains),
-            [&find_pos](shared_ptr<Mountain> mountain)
-            {
+            [&find_pos](shared_ptr<Mountain> mountain) {
                 return mountain->position == find_pos;
             });
         auto unit = find_if(
             begin(world.units1),
             end(world.units1),
-            [&find_pos](shared_ptr<Thing> unit)
-            {
+            [&find_pos](shared_ptr<Thing> unit) {
                 return unit->position == find_pos;
             });
 
-        bool obstacleAtTop = mountain != end(world.mountains) || unit != end(world.units1);
+        obstacleAtTop = mountain != end(world.mountains) || unit != end(world.units1) || pos.y() == 0;
 
         find_pos.pos = make_tuple(pos.x() - 1, pos.y());
         mountain = find_if(
             begin(world.mountains),
             end(world.mountains),
-            [&find_pos](shared_ptr<Mountain> mountain)
-            {
+            [&find_pos](shared_ptr<Mountain> mountain) {
                 return mountain->position == find_pos;
             });
         unit = find_if(
             begin(world.units1),
             end(world.units1),
-            [&find_pos](shared_ptr<Thing> unit)
-            {
+            [&find_pos](shared_ptr<Thing> unit) {
                 return unit->position == find_pos;
             });
 
-        bool obstacleAtLeft = mountain != end(world.mountains) || unit != end(world.units1);
+        obstacleAtLeft = mountain != end(world.mountains) || unit != end(world.units1) || pos.x() == 0;
 
         if (obstacleAtLeft && obstacleAtTop)
         {
@@ -437,6 +453,8 @@ Action actionPlayerOne(World &world)
         break;
     }
 
+    // cout << "LEFT " << (obstacleAtLeft ? "TRUE" : "FALSE") << endl;
+    // cout << "TOP " << (obstacleAtTop ? "TRUE" : "FALSE") << endl;
     // cout << "IQ " << idx << endl;
     // cout << "POS " << pos.pos << endl;
     // cout << "DELTA " << make_tuple(x, y) << endl;
@@ -444,7 +462,9 @@ Action actionPlayerOne(World &world)
 
     Action action(pos, target_pos);
 
+    this_thread::sleep_for(85ms); // 0.4 seconds
     // this_thread::sleep_for(385ms); // 0.4 seconds
+    // this_thread::sleep_for(1000ms); // 0.4 seconds
     return action;
 }
 
@@ -525,13 +545,12 @@ void displayWorld(World &world)
         cout << endl;
     }
 
-    cout << endl
-         << endl;
+    cout.flush();
 }
 
-shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &mountains, vector<shared_ptr<Thing>> &units)
+shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &mountains, vector<shared_ptr<Thing>> &units, shared_ptr<Thing> flag)
 {
-    if (action.to.x() > 14 || action.to.x() < 0 || action.to.y() > 14 || action.to.y() < 0)
+    if (action.to.x() > 14 || action.to.x() < 0 || action.to.y() > 14 || action.to.y() < 0 || flag->position == action.to)
     {
         return nullptr;
     }
@@ -539,8 +558,7 @@ shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &m
     auto mountain = find_if(
         begin(mountains),
         end(mountains),
-        [&action](shared_ptr<Mountain> mountain)
-        {
+        [&action](shared_ptr<Mountain> mountain) {
             return mountain->position == action.to;
         });
 
@@ -552,8 +570,7 @@ shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &m
     auto occuped = find_if(
         begin(units),
         end(units),
-        [&action](shared_ptr<Thing> unit)
-        {
+        [&action](shared_ptr<Thing> unit) {
             return unit->position == action.to;
         });
 
@@ -565,8 +582,7 @@ shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &m
     auto thing = find_if(
         begin(units),
         end(units),
-        [&action](shared_ptr<Thing> unit)
-        {
+        [&action](shared_ptr<Thing> unit) {
             return unit->position == action.from;
         });
 
@@ -602,8 +618,7 @@ void killMe(shared_ptr<Thing> unit0, vector<shared_ptr<Thing>> &units)
     auto start = remove_if(
         begin(units),
         end(units),
-        [&unit0](shared_ptr<Thing> unit)
-        {
+        [&unit0](shared_ptr<Thing> unit) {
             return unit->position == unit0->position;
         });
 
@@ -674,8 +689,7 @@ void mortalCombat(
     auto enemy0 = find_if(
         begin(world.units1),
         end(world.units1),
-        [&action0](shared_ptr<Thing> unit)
-        {
+        [&action0](shared_ptr<Thing> unit) {
             return unit->position == action0.to;
         });
 
@@ -687,8 +701,7 @@ void mortalCombat(
     auto enemy1 = find_if(
         begin(world.units0),
         end(world.units0),
-        [&action1](shared_ptr<Thing> unit)
-        {
+        [&action1](shared_ptr<Thing> unit) {
             return unit->position == action1.to;
         });
 
@@ -707,7 +720,7 @@ int main()
     bool endGame = false;
     displayWorld(world);
 
-    int i = 10000000;
+    int i = 20000;
 
     while (!endGame)
     {
@@ -716,34 +729,80 @@ int main()
         if (timeout0 || timeout1)
         {
             endGame = true;
+            if (world.units1.size() == 0)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                }
+                cout << "🏆🏆🏆🏆🏆🏆🏆🇷🇺🏆🏆🏆🏆🏆🏆🏆" << endl;
+                for (int i = 0; i < 7; i++)
+                {
+                    cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                }
+                cout.flush();
+            }
+            else
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                }
+                cout << "🏆🏆🏆🏆🏆🏆🏆🇧🇷🏆🏆🏆🏆🏆🏆🏆" << endl;
+                for (int i = 0; i < 7; i++)
+                {
+                    cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                }
+                cout.flush();
+            }
             // TODO Show the result of the game. Who caused the timeout?
         }
         else
         {
             endGame = i-- < 0;
 
-            auto thing0 = findAndValidate(action0, world.mountains, world.units0);
+            auto thing0 = findAndValidate(action0, world.mountains, world.units0, world.flag0);
 
             if (thing0 != nullptr)
             {
                 moveUnit(thing0, action0);
                 if (winCheck(thing0, world.flag1))
                 {
-                    cout << "RUSSIA WINS" << endl;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                    }
+                    cout << "🏆🏆🏆🏆🏆🏆🏆🇷🇺🏆🏆🏆🏆🏆🏆🏆" << endl;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                    }
                     endGame = true;
+                    cout.flush();
+                    break;
                     // TODO
                 }
             }
 
-            auto thing1 = findAndValidate(action1, world.mountains, world.units1);
+            auto thing1 = findAndValidate(action1, world.mountains, world.units1, world.flag1);
 
             if (thing1 != nullptr)
             {
                 moveUnit(thing1, action1);
                 if (winCheck(thing1, world.flag0))
                 {
-                    cout << "BRAZIL WINS" << endl;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                    }
+                    cout << "🏆🏆🏆🏆🏆🏆🏆🇧🇷🏆🏆🏆🏆🏆🏆🏆" << endl;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
+                    }
                     endGame = true;
+                    cout.flush();
+                    break;
                     // TODO
                 }
             }

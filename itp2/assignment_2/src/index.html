@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    <title>Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        img[alt="⬜️"] {
+            opacity: 0;
+        }
+        
+        p {
+            display: block;
+            background-color: #9f9fa0;
+            padding: 50px;
+            margin: 0;
+            line-height: 0px;
+            max-width: calc(50px * 17);
+        }
+
+        img.emoji {
+            height: 50px;
+            width: 50px;
+            margin: 0;
+        }
+
+        br {
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+    <p id="output">
+    </p>
+
+    <script>
+        const socket = io();
+        const output = document.getElementById("output");
+        let buffer = [];
+
+        socket.on('newLine', (msg) => {
+            let lines = msg.split('\n');
+            
+            buffer.push(...lines.filter(line => line.length > 0));
+
+            if (buffer.length >= 15) {
+                output.innerHTML = twemoji.parse(buffer.join("<br/>"));
+                buffer = buffer.slice(15);
+            }
+        });
+    </script>
+</body>
+</html>
