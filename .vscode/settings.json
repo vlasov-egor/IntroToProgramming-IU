@@ -68,6 +68,8 @@
         "ctime": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "__bits": "cpp",
+        "thread": "cpp"
     }
 }
