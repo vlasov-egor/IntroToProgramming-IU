@@ -1,8 +1,22 @@
 /**
  * @file egor_vlasov.cpp
  * @author Egor Vlasov (e.vlasov@innopolis.university)
- * @brief implementation of two-dimensionalworld in which two players control units 
+ * @brief implementation of two-dimensional world in which two players control units 
  * that battle to take each other’s flag. 
+ * 
+ * it is a simulator of a battle on stones-paper-scissors between brazil (black gestures) and russia (white gestures), 
+ * the russian troops operate on random, and brazil has a tactic that is expressed in reaching out in a chain, 
+ * thereby creating a defensive front
+ * 
+ * to launch the program correctly, use the command 
+ * clear && g ++ -std = c ++ 2a egor_vlasov.cpp && ./a.out > out.txt 
+ * and look at the out.txt file 
+ * (since the stickers are not displayed correctly in the terminal)
+ * 
+ * ITEM 3.d: 
+ * I also made a visualizer on the node.js, 
+ * which you can see from the link
+ * https://egor-vlasov.alexstrnik.ru/
  * 
  */
 
@@ -19,15 +33,28 @@ using namespace std;
 using namespace chrono_literals;
 
 const int TIMEOUT = 400; // maximum number of milliseconds that a player is allowed to take
-// const int TIMEOUT = 4000; // maximum number of milliseconds that a player is allowed to take
 
-// it contains last id of object in list
+// it contains last id of object
 int lastId = 0;
 
+// ITEM 3.b: templates and own classes
+/**
+ * @brief class for tuple printing
+ * 
+ * @tparam Type type of value
+ * @tparam N index
+ * @tparam Last last element
+ */
 template <typename Type, unsigned N, unsigned Last>
 struct tuple_printer
 {
 
+    /**
+     * @brief prints tuple 
+     * 
+     * @param out out stream
+     * @param value some value
+     */
     static void print(std::ostream &out, const Type &value)
     {
         out << std::get<N>(value) << ", ";
@@ -35,16 +62,36 @@ struct tuple_printer
     }
 };
 
+/**
+ * @brief class for tuple printing
+ * 
+ * @tparam Type type of value
+ * @tparam N index
+ * @tparam Last last element
+ */
 template <typename Type, unsigned N>
 struct tuple_printer<Type, N, N>
 {
-
+    /**
+     * @brief prints tuple 
+     * 
+     * @param out out stream
+     * @param value some value
+     */
     static void print(std::ostream &out, const Type &value)
     {
         out << std::get<N>(value);
     }
 };
 
+/**
+ * @brief << operator overloading for tuple
+ * 
+ * @tparam Types types in tuple
+ * @param out out stream
+ * @param value some value 
+ * @return std::ostream& new out stream 
+ */
 template <typename... Types>
 std::ostream &operator<<(std::ostream &out, const std::tuple<Types...> &value)
 {
@@ -54,6 +101,14 @@ std::ostream &operator<<(std::ostream &out, const std::tuple<Types...> &value)
     return out;
 }
 
+/**
+ * @brief returns random element in some range
+ * 
+ * @tparam I type of element
+ * @param begin begin of range
+ * @param end end of range
+ * @return I random element
+ */
 template <typename I>
 I random_element(I begin, I end)
 {
@@ -63,30 +118,59 @@ I random_element(I begin, I end)
     return begin;
 }
 
+/**
+ * @brief class which contains position in tuple format
+ * 
+ */
 class Position
 {
 public:
+    // tuple <x, y>
     tuple<int, int> pos;
 
+    /**
+     * @brief getting x
+     * 
+     * @return int x
+     */
     int x()
     {
         return std::get<0>(pos);
     }
 
+    /**
+     * @brief getting y
+     * 
+     * @return int y
+     */
     int y()
     {
         return std::get<1>(pos);
     }
 
+    /**
+     * @brief Construct a new Position object
+     * 
+     * @param x 
+     * @param y 
+     */
     Position(int x, int y)
     {
         pos = make_tuple(x, y);
     }
 
+    /**
+     * @brief Construct a new Position object
+     * 
+     */
     Position(){};
 
-    Position
-    random_move()
+    /**
+     * @brief random moving
+     * 
+     * @return Position new random position
+     */
+    Position random_move()
     {
         Position npos;
 
@@ -109,6 +193,12 @@ public:
         return npos;
     };
 
+    /**
+     * @brief calculating a distance between pos2 and current position
+     * 
+     * @param pos2 some position
+     * @return float distance
+     */
     float distanceTo(Position pos2)
     {
         return sqrt(
@@ -120,18 +210,41 @@ public:
 };
 
 // TODO Implement the operator == and other operators if necessary
+/**
+ * @brief == operator overloading
+ * 
+ * @param lhs left side element
+ * @param rhs right side element
+ * @return true if ==
+ * @return false if !=
+ */
 bool operator==(Position &lhs, Position &rhs)
 {
     return (lhs.x() == rhs.x() && lhs.y() == rhs.y());
 }
 
+/**
+ * @brief it contains scissors, rocks and papers 
+ * 
+ */
 class Thing
 {
 public:
     int id;
     Position position;
 
+    /**
+     * @brief Construct a new Thing object
+     * 
+     */
     Thing(){};
+
+    /**
+     * @brief Construct a new Thing object
+     * 
+     * @param position_x 
+     * @param position_y 
+     */
     Thing(int position_x, int position_y)
     {
         this->id = lastId++;
@@ -140,53 +253,91 @@ public:
 
     virtual ~Thing() = default;
 };
+
+/**
+ * @brief contains small scissors
+ * 
+ */
 class SmallScissors : public Thing
 {
 public:
     SmallScissors(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains capital scissors
+ * 
+ */
 class CapitalScissors : public Thing
 {
 public:
     CapitalScissors(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains small rock
+ * 
+ */
 class SmallRock : public Thing
 {
 public:
     SmallRock(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains capital rock
+ * 
+ */
 class CapitalRock : public Thing
 {
 public:
     CapitalRock(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains small paper
+ * 
+ */
 class SmallPaper : public Thing
 {
 public:
     SmallPaper(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains capital paper
+ * 
+ */
 class CapitalPaper : public Thing
 {
 public:
     CapitalPaper(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains flag
+ * 
+ */
 class Flag : public Thing
 {
 public:
     Flag(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
 
+/**
+ * @brief contains mountains
+ * 
+ */
 class Mountain : public Thing
 {
 public:
     Mountain(int position_x, int position_y) : Thing(position_x, position_y) {}
 };
+
+/**
+ * @brief it contains all world 15x15
+ * 
+ */
 class World
 {
 public:
@@ -295,6 +446,10 @@ public:
     };
 };
 
+/**
+ * @brief contains action of moving from somewhere to somewhere
+ * 
+ */
 class Action
 {
 public:
@@ -305,6 +460,14 @@ public:
     Action(Position from, Position to) : from(from), to(to){};
 };
 
+/**
+ * @brief check is cell occupied or not
+ * 
+ * @param pos position for checking
+ * @param units vector of all units
+ * @return true occupied
+ * @return false not occupied
+ */
 bool occupied(Position pos, vector<shared_ptr<Thing>> &units)
 {
     if (pos.x() > 14 || pos.x() < 0 || pos.y() > 14 || pos.y() < 0)
@@ -312,16 +475,23 @@ bool occupied(Position pos, vector<shared_ptr<Thing>> &units)
         return true;
     }
 
-    auto occuped = find_if(
+    auto occupied = find_if(
         begin(units),
         end(units),
         [&pos](shared_ptr<Thing> unit) {
             return unit->position == pos;
         });
 
-    return occuped != end(units);
+    return occupied != end(units);
 }
 
+// ITEM 3.c: random strategy
+/**
+ * @brief action of zero player
+ * 
+ * @param world ref to world 15x15
+ * @return Action some move
+ */
 Action actionPlayerZero(World &world)
 {
     if (world.units0.size() == 0)
@@ -344,12 +514,17 @@ Action actionPlayerZero(World &world)
 
     Action action(pos, target_pos);
 
-    this_thread::sleep_for(85ms); // 0.4 seconds
-    // this_thread::sleep_for(385ms); // 0.4 seconds
-    // this_thread::sleep_for(1000ms); // 0.4 seconds
+    this_thread::sleep_for(385ms); // 0.4 seconds
     return action;
 }
 
+// ITEM 3.c: non-random strategy
+/**
+ * @brief action of first player
+ * 
+ * @param world ref to world 15x15
+ * @return Action some move
+ */
 Action actionPlayerOne(World &world)
 {
     if (world.units1.size() == 0)
@@ -453,18 +628,10 @@ Action actionPlayerOne(World &world)
         break;
     }
 
-    // cout << "LEFT " << (obstacleAtLeft ? "TRUE" : "FALSE") << endl;
-    // cout << "TOP " << (obstacleAtTop ? "TRUE" : "FALSE") << endl;
-    // cout << "IQ " << idx << endl;
-    // cout << "POS " << pos.pos << endl;
-    // cout << "DELTA " << make_tuple(x, y) << endl;
-    // cout << "TPOS " << target_pos.pos << endl;
-
     Action action(pos, target_pos);
 
-    this_thread::sleep_for(85ms); // 0.4 seconds
-    // this_thread::sleep_for(385ms); // 0.4 seconds
-    // this_thread::sleep_for(1000ms); // 0.4 seconds
+    this_thread::sleep_for(385ms); // 0.4 seconds
+
     return action;
 }
 
@@ -485,6 +652,11 @@ tuple<Action, bool> waitPlayer(Action (*f)(World &), World world)
         return {action, false};
 }
 
+/**
+ * @brief it shows all world 15x15
+ * 
+ * @param world 
+ */
 void displayWorld(World &world)
 {
     string matrix[15][15] = {};
@@ -545,9 +717,19 @@ void displayWorld(World &world)
         cout << endl;
     }
 
+    cout << endl;
     cout.flush();
 }
 
+/**
+ * @brief it checks valid or not some move
+ * 
+ * @param action some move
+ * @param mountains all mountains
+ * @param units all units
+ * @param flag flag of that player
+ * @return shared_ptr<Thing> 
+ */
 shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &mountains, vector<shared_ptr<Thing>> &units, shared_ptr<Thing> flag)
 {
     if (action.to.x() > 14 || action.to.x() < 0 || action.to.y() > 14 || action.to.y() < 0 || flag->position == action.to)
@@ -596,16 +778,36 @@ shared_ptr<Thing> findAndValidate(Action action, vector<shared_ptr<Mountain>> &m
     }
 }
 
+/**
+ * @brief it moves unit
+ * 
+ * @param unit some unit
+ * @param action some move
+ */
 void moveUnit(shared_ptr<Thing> unit, Action action)
 {
     unit->position = action.to;
 }
 
+/**
+ * @brief checks is anyone wins
+ * 
+ * @param unit some unit
+ * @param flag flag of opposite player
+ * @return true win
+ * @return false not
+ */
 bool winCheck(shared_ptr<Thing> unit, shared_ptr<Flag> flag)
 {
     return unit->position == flag->position;
 }
 
+/**
+ * @brief it canceling action if it was illegal move
+ * 
+ * @param unit some unit
+ * @param action move
+ */
 void cancelAction(
     shared_ptr<Thing> unit,
     Action action)
@@ -613,6 +815,12 @@ void cancelAction(
     unit->position = action.from;
 }
 
+/**
+ * @brief it kills unit and deletes it from units vector
+ * 
+ * @param unit0 some unit
+ * @param units units vector
+ */
 void killMe(shared_ptr<Thing> unit0, vector<shared_ptr<Thing>> &units)
 {
     auto start = remove_if(
@@ -625,6 +833,15 @@ void killMe(shared_ptr<Thing> unit0, vector<shared_ptr<Thing>> &units)
     units.erase(start, end(units));
 }
 
+/**
+ * @brief something like fatality, when there are some fight
+ * 
+ * @param unit0 first unit
+ * @param unit1 second unit
+ * @param world ref to world 15x15
+ * @param action some move
+ * @param unit unit-winner
+ */
 void jonality(
     shared_ptr<Thing> unit0,
     shared_ptr<Thing> unit1,
@@ -679,6 +896,15 @@ void jonality(
     }
 }
 
+/**
+ * @brief check is there needed fight
+ * 
+ * @param world ref to world 
+ * @param unit0 first unit
+ * @param action0 move of first unit
+ * @param unit1 second unit
+ * @param action1 move of second unit
+ */
 void mortalCombat(
     World &world,
     shared_ptr<Thing> unit0,
@@ -713,14 +939,16 @@ void mortalCombat(
 
 int main()
 {
+    // ITEM 3.a:
     srand(time(0));
 
-    World world;
     // TODO Initialize the world
+    World world;
+
     bool endGame = false;
     displayWorld(world);
 
-    int i = 20000;
+    int i = 100000;
 
     while (!endGame)
     {
@@ -729,8 +957,12 @@ int main()
         if (timeout0 || timeout1)
         {
             endGame = true;
+            // TODO Show the result of the game. Who caused the timeout?
+            // TODO End the game and show the result if a player won
+            // checks is there any units of players
             if (world.units1.size() == 0)
             {
+                // russia wins
                 for (int i = 0; i < 7; i++)
                 {
                     cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
@@ -744,6 +976,7 @@ int main()
             }
             else
             {
+                // brazilia wins
                 for (int i = 0; i < 7; i++)
                 {
                     cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
@@ -755,7 +988,6 @@ int main()
                 }
                 cout.flush();
             }
-            // TODO Show the result of the game. Who caused the timeout?
         }
         else
         {
@@ -768,6 +1000,7 @@ int main()
                 moveUnit(thing0, action0);
                 if (winCheck(thing0, world.flag1))
                 {
+                    // russia wins
                     for (int i = 0; i < 7; i++)
                     {
                         cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
@@ -780,10 +1013,10 @@ int main()
                     endGame = true;
                     cout.flush();
                     break;
-                    // TODO
                 }
             }
 
+            // TODO Validate the actions: actionPlayer0 and actionPlayer1
             auto thing1 = findAndValidate(action1, world.mountains, world.units1, world.flag1);
 
             if (thing1 != nullptr)
@@ -791,6 +1024,7 @@ int main()
                 moveUnit(thing1, action1);
                 if (winCheck(thing1, world.flag0))
                 {
+                    // brazilia wins
                     for (int i = 0; i < 7; i++)
                     {
                         cout << "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" << endl;
@@ -806,15 +1040,10 @@ int main()
                     // TODO
                 }
             }
-
-            mortalCombat(world, thing0, action0, thing1, action1);
-
-            displayWorld(world);
-
-            // TODO Validate the actions: actionPlayer0 and actionPlayer1
             // TODO Update the world
+            mortalCombat(world, thing0, action0, thing1, action1);
             // TODO Show the world
-            // TODO End the game and show the result if a player won
+            displayWorld(world);
         }
     }
 
